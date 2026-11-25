@@ -339,7 +339,7 @@ body{font-family:var(--f-ui);color:#fff;user-select:none;-webkit-user-select:non
     <button class="plank" id="onlineBtn" type="button">Mit Freunden<small>online, auf jedem Gerät</small></button>
     <button class="plank" id="helpBtn" type="button">So wird gespielt</button>
   </nav>
-  <div class="mfoot"><button type="button" id="menuMute">Ton an</button><span>Prototyp · Version 11 · Web</span></div>
+  <div class="mfoot"><button type="button" id="menuMute">Ton an</button><span>Prototyp · Version 12 · Web</span></div>
 </div>
 <div id="fade"></div>
 
@@ -397,7 +397,7 @@ body{font-family:var(--f-ui);color:#fff;user-select:none;-webkit-user-select:non
       <dt>Q</dt><dd>Schwerthieb gegen Einheiten in deiner Nähe.</dd>
     </dl>
     </div></div>
-    <p class="note">Wind wechselt alle 30 Sekunden. Rote Ringe zeigen gegnerische Einschläge. Schieß Turmfundamente weg, dann stürzt alles darüber ein. Alle 22 Sekunden marschieren Einheiten über die Brücken links und rechts. Prototyp, Version 11.</p>
+    <p class="note">Wind wechselt alle 30 Sekunden. Rote Ringe zeigen gegnerische Einschläge. Schieß Turmfundamente weg, dann stürzt alles darüber ein. Alle 22 Sekunden marschieren Einheiten über die Brücken links und rechts. Prototyp, Version 12.</p>
     <button class="go" id="helpClose" type="button">Verstanden</button>
   </div>
 </div>
@@ -1323,6 +1323,7 @@ class Character {
     const g = this.g = new THREE.Group(), body = this.body = new THREE.Group(); g.add(body);
     const L = c => new THREE.MeshLambertMaterial({color:c});
     const teamM = L(T.main), teamD = L(T.dark), skin = L(0xe2b48a), leather = L(0x4a3324), mail = new THREE.MeshPhongMaterial({color:0x9aa0a8, specular:0xffffff, shininess:40}), gold = new THREE.MeshPhongMaterial({color:0xd9a640, specular:0xfff0c0, shininess:70}), dark = L(0x2a2420);
+    const white = L(0xf4efe6), skinD = L(0xc08a62), hair = L(0x5a3418);
     this.mats = [teamM, skin, mail];
     const box = (w,h,d,m,x,y,z,parent=body) => { const b = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), m); b.position.set(x,y,z); b.castShadow = true; parent.add(b); return b; };
     // Rumpf: Kettenhemd, Wappenrock, Guertel
@@ -1330,20 +1331,38 @@ class Character {
     box(.64,.78,.4,teamM,0,1.08,0).scale.set(1,1,1);
     const em = new THREE.Mesh(new THREE.OctahedronGeometry(.11,0), new THREE.MeshBasicMaterial({color:EMBER})); em.position.set(0,1.22,.21); em.scale.z = .3; body.add(em);
     box(.68,.1,.44,leather,0,.84,0); box(.12,.1,.05,gold,0,.84,.23);
+    // Wappenrock-Details: goldener Rautenrahmen ums Emblem, Saum, Vorder-/Rueckenlatz, Kettenrock
+    const fr = box(.24,.24,.02,gold,0,1.22,.202); fr.rotation.z = Math.PI/4;
+    box(.66,.04,.42,gold,0,.71,0); box(.58,.16,.36,mail,0,.63,0);
+    box(.3,.32,.04,teamM,0,.62,.21); box(.3,.32,.04,teamM,0,.62,-.21); box(.31,.04,.05,gold,0,.47,.21);
+    box(.04,.6,.41,gold,-.29,1.1,0); box(.04,.6,.41,gold,.29,1.1,0);
+    // Kragen und zweite Guerteltasche, Trinkhorn
+    box(.46,.08,.4,leather,0,1.5,-.02); box(.12,.14,.1,leather,-.26,.76,.2); box(.05,.04,.02,gold,-.26,.8,.255);
     // Kopf, Augen, Bart
     box(.38,.38,.36,skin,0,1.73,0);
-    box(.06,.06,.02,dark,-.09,1.76,.185); box(.06,.06,.02,dark,.09,1.76,.185);
-    box(.3,.1,.06,leather,0,1.6,.17);
+    box(.045,.055,.02,dark,-.085,1.755,.19); box(.045,.055,.02,dark,.085,1.755,.19);
+    box(.3,.1,.06,hair,0,1.6,.17);
+    // Gesicht: Augenweiss, Pupillen, Brauen, Nase, Schnurrbart, Ohren, Nackenhaar
+    box(.09,.07,.02,white,-.09,1.76,.18); box(.09,.07,.02,white,.09,1.76,.18);
+    box(.1,.03,.03,hair,-.09,1.825,.185); box(.1,.03,.03,hair,.09,1.825,.185);
+    box(.07,.1,.06,skinD,0,1.7,.2); box(.24,.04,.05,hair,0,1.645,.19);
+    box(.05,.1,.08,skin,-.205,1.72,0); box(.05,.1,.08,skin,.205,1.72,0); box(.38,.14,.06,hair,0,1.78,-.18);
+    box(.14,.06,.05,hair,0,1.56,.17);
     // Helm mit Krempe und Federbusch
     const helm = new THREE.Mesh(new THREE.CylinderGeometry(.21,.24,.26,10), mail); helm.position.y = 1.98; helm.castShadow = true; body.add(helm);
     const brim = new THREE.Mesh(new THREE.CylinderGeometry(.34,.34,.04,12), mail); brim.position.y = 1.87; body.add(brim);
-    box(.06,.22,.3,teamM,0,2.18,-.02);
+    box(.06,.22,.3,teamM,0,2.18,-.02); box(.06,.16,.2,teamM,0,2.3,-.12); box(.06,.1,.14,gold,0,2.4,-.2);
+    const band = new THREE.Mesh(new THREE.CylinderGeometry(.225,.245,.05,10), gold); band.position.y = 1.9; body.add(band);
+    box(.05,.16,.04,mail,0,1.82,.22); box(.06,.06,.06,gold,0,2.12,0);
     // Schulterstuecke
     box(.24,.12,.36,mail,-.4,1.52,0); box(.24,.12,.36,mail,.4,1.52,0);
+    box(.22,.08,.32,mail,-.42,1.42,0); box(.22,.08,.32,mail,.42,1.42,0);
+    for (const sx of [-1,1]) for (const sz of [-1,1]) box(.04,.04,.04,gold,sx*.4 + sx*.08,1.6,sz*.13);
     const limb = (x,y,w,h,m,end) => { const p = new THREE.Group(); p.position.set(x,y,0); body.add(p); box(w,h,w+.04,m,0,-h/2,0,p); if (end) box(w+.05,.18,w+.1,end,0,-h+.02,.0,p); return p; };
     this.legL = limb(-.15,.8,.21,.78,dark,leather); this.legR = limb(.15,.8,.21,.78,dark,leather);
-    for (const lg of [this.legL, this.legR]) box(.3,.07,.32,leather,0,-.5,0,lg);
+    for (const lg of [this.legL, this.legR]){ box(.3,.07,.32,leather,0,-.5,0,lg); box(.22,.1,.14,leather,0,-.74,.15,lg); box(.23,.13,.06,mail,0,-.4,.12,lg); box(.05,.05,.03,gold,0,-.55,.17,lg); }
     this.armL = limb(-.42,1.46,.17,.64,teamD,leather); this.armR = limb(.42,1.46,.17,.64,teamD,leather);
+    for (const am of [this.armL, this.armR]){ box(.16,.13,.17,leather,0,-.74,.01,am); box(.23,.04,.27,gold,0,-.53,0,am); box(.19,.16,.21,mail,0,-.06,0,am); }
     this.strikeT = 0; this.strikeCd = 0;
     // Umhang
     // Schwert mit Scheide, Guerteltasche, goldene Kanten an den Schulterstuecken, Stiefelstulpen
@@ -1354,6 +1373,9 @@ class Character {
     box(.66,.05,.42,gold,0,1.47,0);
     const capeP = this.cape = new THREE.Group(); capeP.position.set(0,1.5,-.2); body.add(capeP);
     const cape = new THREE.Mesh(new THREE.BoxGeometry(.62,1.05,.04), teamD); cape.position.y = -.52; cape.castShadow = true; capeP.add(cape);
+    box(.64,.06,.05,gold,0,-1.03,0,capeP); box(.06,1.0,.05,gold,-.3,-.52,0,capeP); box(.06,1.0,.05,gold,.3,-.52,0,capeP);
+    const ce = box(.2,.2,.02,gold,0,-.42,-.03,capeP); ce.rotation.z = Math.PI/4; box(.1,.1,.02,teamM,0,-.42,-.045,capeP).rotation.z = Math.PI/4;
+    box(.12,.1,.08,gold,-.24,0,.04,capeP); box(.12,.1,.08,gold,.24,0,.04,capeP);
     for (const lb of [this.legL, this.legR, this.armL, this.armR, capeP]) mergeInto(lb, () => true);
     // gezogenes Schwert fuer den Schlag (nur waehrend des Hiebs sichtbar)
     const blade = this.blade = new THREE.Group(); blade.position.set(0, -.62, .05); this.armR.add(blade); blade.visible = false;
@@ -1485,7 +1507,14 @@ class Character {
       this.armR.rotation.x = -2.6 + f*3.4; this.armR.rotation.z = -.5 + f*.9; this.blade.visible = true;
       this.body.rotation.y = (f - .5)*.7;
     } else { this.blade.visible = false; this.body.rotation.y = 0; }
-    this.body.position.y = Math.abs(Math.sin(this.walkT))*.06*k;
+    const breath = (1 - k)*Math.sin(clock*2.2 + this.pos.x)*.018;
+    this.body.position.y = Math.abs(Math.sin(this.walkT))*.06*k + breath;
+    if (!this.manning && this.strikeT <= 0 && k < .2){ this.armL.rotation.z = -.06 - breath*2; this.armR.rotation.z = .06 + breath*2; } else this.armL.rotation.z = 0;
+    // Staub unter den Stiefeln bei jedem Schritt
+    const step = Math.floor(this.walkT/Math.PI);
+    if (step !== this.lastStep){ this.lastStep = step; if (this.onGround && k > .45 && this.alive && Math.random() < .8){ const side = step % 2 ? .15 : -.15; tA.set(this.pos.x + Math.cos(this.yaw)*side, this.pos.y + .08, this.pos.z - Math.sin(this.yaw)*side); spawnP(tA, tB.set(rand(-.4,.4), rand(.3,.8), rand(-.4,.4)), 0xbfae8e, .22, .55, 1.6, 2, -.4, .38); } }
+    if (this.onGround && !this.wasGround && this.lastVy < -7){ for (let i=0;i<10;i++){ const a = i/10*Math.PI*2; tA.set(this.pos.x, this.pos.y + .1, this.pos.z); spawnP(tA, tB.set(Math.cos(a)*2.2, .4, Math.sin(a)*2.2), 0xc2b08e, .3, .6, 1.8, 3, -.3, .45); } }
+    this.wasGround = this.onGround; this.lastVy = this.vy;
     this.body.rotation.z = Math.sin(this.walkT)*.04*k;
     this.cape.rotation.x = .12 + k*.55 + Math.sin(clock*5 + this.pos.x)*.06 + (this.onGround ? 0 : .3);
     this.g.position.copy(this.pos); this.g.rotation.y = this.yaw;
@@ -1503,26 +1532,90 @@ class Character {
    (ein Draw-Call pro Teil fuer alle Einheiten).
    ================================================================ */
 const UNIT_TYPES = [
-  {name:'Krieger', hp:44, sp:3.2, dmg:4,  cd:1.2, s:1.0,  skin:0xe2b48a, armor:0x8a9098, wpn:[.08,.9,.08], wpnC:0xc8ccd2},
-  {name:'Späher',  hp:20, sp:5.4, dmg:3,  cd:.9,  s:.82,  skin:0x9fb07a, armor:0x5a4630, wpn:[.06,.55,.06], wpnC:0xd8dce2},
-  {name:'Brecher', hp:110,sp:2.1, dmg:10, cd:1.7, s:1.45, skin:0xc99a6a, armor:0x4a4a52, wpn:[.22,1.0,.22], wpnC:0x6b4a2e},
+  {name:'Krieger', hp:44, sp:3.2, dmg:4,  cd:1.2, s:1.0,  skin:0xe2b48a, skinD:0xc08a62, armor:0x9aa0a8, wpn:[.08,.9,.08], wpnC:0xc8ccd2},
+  {name:'Späher',  hp:20, sp:5.4, dmg:3,  cd:.9,  s:.82,  skin:0xd6a47c, skinD:0xb07e58, armor:0x5a4630, wpn:[.06,.55,.06], wpnC:0xd8dce2},
+  {name:'Brecher', hp:110,sp:2.1, dmg:10, cd:1.7, s:1.45, skin:0xc99a6a, skinD:0xa0744c, armor:0x5a5c66, wpn:[.22,1.0,.22], wpnC:0x6b4a2e},
 ];
 const MAXU = 30, units = []; let unitId = 0, waveT = 15, waveN = 0;
 const U_PARTS = (() => {
-  const L = c => new THREE.MeshLambertMaterial({color:c});
-  const mk = (geo, mat, n) => { const m = new THREE.InstancedMesh(geo, mat, n); m.castShadow = true; m.frustumCulled = false; for (let i=0;i<n;i++) m.setMatrixAt(i, ZERO_M); m.setColorAt(i0(n), new THREE.Color(1,1,1)); scene.add(m); return m; };
-  function i0(n){ return 0; }
-  return {
-    torso: mk(new THREE.BoxGeometry(.56,.66,.34).translate(0,1.15,0), L(0xffffff), MAXU),
-    belt:  mk(new THREE.BoxGeometry(.6,.1,.38).translate(0,.84,0), L(0x3a2a1c), MAXU),
-    head:  mk(new THREE.BoxGeometry(.34,.34,.32).translate(0,1.68,0), L(0xffffff), MAXU),
-    helm:  mk(new THREE.BoxGeometry(.4,.16,.38).translate(0,1.9,0), L(0xffffff), MAXU),
-    limb:  mk(new THREE.BoxGeometry(.2,.72,.22).translate(0,-.36,0), L(0xffffff), MAXU*4),
-    wpn:   mk(new THREE.BoxGeometry(1,1,1).translate(0,.5,0), L(0xffffff), MAXU),
-    shield:mk(new THREE.CylinderGeometry(.32,.32,.07,10).rotateX(Math.PI/2), L(0xffffff), MAXU),
-  };
+  // Jede Einheit besteht aus vielen kleinen Teilen. Pro Grundform (Box, Zylinder, Kegel, Kugel; matt oder Metall)
+  // gibt es EIN InstancedMesh, also bleiben es 8 Draw-Calls fuer alle 30 Einheiten zusammen.
+  const geos = { b:new THREE.BoxGeometry(1,1,1), c:new THREE.CylinderGeometry(.5,.5,1,10), k:new THREE.ConeGeometry(.5,1,8), s:new THREE.IcosahedronGeometry(.5,1) };
+  const matte = new THREE.MeshLambertMaterial({color:0xffffff});
+  const metal = new THREE.MeshPhongMaterial({color:0xffffff, specular:0x9a9a9a, shininess:46});
+  // [form, eltern(0 Koerper,1 BeinL,2 BeinR,3 ArmL,4 ArmR), x,y,z, rx,ry,rz, sx,sy,sz, farbe]
+  const common = [
+    ['b',1, 0,-.24,0, 0,0,0, .2,.5,.22, 'dark'], ['b',2, 0,-.24,0, 0,0,0, .2,.5,.22, 'dark'],
+    ['b',1, 0,-.6,.03, 0,0,0, .24,.26,.3, 'leather'], ['b',2, 0,-.6,.03, 0,0,0, .24,.26,.3, 'leather'],
+    ['b',1, 0,-.46,.02, 0,0,0, .27,.06,.32, 'leather2'], ['b',2, 0,-.46,.02, 0,0,0, .27,.06,.32, 'leather2'],
+    ['b',3, 0,-.22,0, 0,0,0, .18,.46,.2, 'teamD'], ['b',4, 0,-.22,0, 0,0,0, .18,.46,.2, 'teamD'],
+    ['b',3, 0,-.5,0, 0,0,0, .21,.18,.23, 'leather'], ['b',4, 0,-.5,0, 0,0,0, .21,.18,.23, 'leather'],
+    ['b',3, 0,-.66,.01, 0,0,0, .15,.14,.16, 'hand'], ['b',4, 0,-.66,.01, 0,0,0, .15,.14,.16, 'hand'],
+    ['b',0, 0,1.15,0, 0,0,0, .56,.66,.34, 'team'],
+    ['b',0, 0,.84,0, 0,0,0, .6,.1,.38, 'leather2'], ['bm',0, 0,.84,.195, 0,0,0, .11,.08,.03, 'gold'],
+    ['b',0, 0,.66,.17, 0,0,0, .3,.28,.04, 'team'], ['b',0, 0,.66,-.17, 0,0,0, .3,.28,.04, 'team'],
+    ['b',0, 0,1.5,0, 0,0,0, .18,.1,.18, 'skin'], ['b',0, 0,1.68,0, 0,0,0, .34,.34,.32, 'skin'],
+    ['b',0, -.075,1.7,.162, 0,0,0, .06,.05,.02, 'eye'], ['b',0, .075,1.7,.162, 0,0,0, .06,.05,.02, 'eye'],
+    ['b',0, 0,1.645,.175, 0,0,0, .06,.09,.05, 'skinD'],
+  ];
+  const byType = [
+    [ // Krieger: Topfhelm mit Nasenschutz und Kamm, Brustplatte, Schulterkugeln, Rundschild, Schwert
+      ['bm',0, 0,1.25,.175, 0,0,0, .48,.36,.04, 'armor'], ['b',0, 0,1.25,.19, 0,0,.785, .14,.14,.02, 'team'],
+      ['sm',0, -.36,1.47,0, 0,0,0, .3,.22,.32, 'armor'], ['sm',0, .36,1.47,0, 0,0,0, .3,.22,.32, 'armor'],
+      ['cm',0, 0,1.86,0, 0,0,0, .42,.2,.4, 'armor'], ['sm',0, 0,1.95,0, 0,0,0, .42,.24,.4, 'armor'],
+      ['bm',0, 0,1.74,.19, 0,0,0, .05,.16,.03, 'armor'], ['b',0, 0,2.08,-.01, 0,0,0, .06,.13,.34, 'team'],
+      ['b',0, 0,1.58,.17, 0,0,0, .22,.08,.04, 'beard'],
+      ['c',3, -.06,-.44,.12, 1.5708,0,0, .66,.07,.66, 'team'], ['cm',3, -.06,-.44,.085, 1.5708,0,0, .72,.04,.72, 'armor'],
+      ['b',3, -.06,-.44,.16, 0,0,0, .06,.48,.02, 'gold'], ['b',3, -.06,-.44,.16, 0,0,0, .48,.06,.02, 'gold'],
+      ['sm',3, -.06,-.44,.17, 0,0,0, .16,.16,.1, 'gold'],
+      ['b',4, 0,-.66,.03, 0,0,0, .06,.06,.22, 'leather2'], ['bm',4, 0,-.66,.15, 0,0,0, .3,.05,.06, 'gold'],
+      ['bm',4, 0,-.66,.56, 0,0,0, .08,.03,.76, 'metal'], ['km',4, 0,-.66,.98, 1.5708,0,0, .08,.12,.03, 'metal'], ['sm',4, 0,-.66,-.1, 0,0,0, .09,.09,.09, 'gold'],
+    ],
+    [ // Spaeher: Kapuze, Maske, Lederweste mit Schaerpe, Koecher mit Pfeilen, zwei Dolche
+      ['b',0, 0,1.2,0, 0,0,0, .6,.44,.37, 'leather'], ['b',0, 0,1.15,0, 0,0,.75, .11,.74,.38, 'team'],
+      ['b',0, 0,1.5,0, 0,0,0, .4,.1,.36, 'team'],
+      ['k',0, 0,2.0,-.03, -.2,0,0, .46,.5,.44, 'teamD'], ['b',0, 0,1.72,-.15, 0,0,0, .4,.38,.1, 'teamD'],
+      ['b',0, -.18,1.72,0, 0,0,0, .04,.36,.32, 'teamD'], ['b',0, .18,1.72,0, 0,0,0, .04,.36,.32, 'teamD'],
+      ['b',0, 0,1.59,.17, 0,0,0, .34,.12,.05, 'teamD'],
+      ['c',0, .12,1.25,-.25, 0,0,.3, .17,.6,.17, 'leather2'], ['c',0, .12,1.25,-.25, 0,0,.3, .19,.06,.19, 'gold'],
+      ['b',0, .02,1.6,-.24, 0,0,.3, .03,.16,.05, 'light'], ['b',0, .07,1.62,-.22, 0,0,.3, .03,.16,.05, 'light'], ['b',0, .1,1.58,-.28, 0,0,.3, .03,.16,.05, 'light'],
+      ['b',0, .2,.84,.2, 0,0,0, .12,.12,.08, 'leather'],
+      ['b',4, 0,-.66,.02, 0,0,0, .05,.05,.16, 'leather2'], ['bm',4, 0,-.66,.1, 0,0,0, .18,.04,.05, 'gold'], ['km',4, 0,-.66,.33, 1.5708,0,0, .08,.42,.03, 'metal'],
+      ['b',3, 0,-.66,.02, 0,0,0, .05,.05,.16, 'leather2'], ['bm',3, 0,-.66,.1, 0,0,0, .18,.04,.05, 'gold'], ['km',3, 0,-.66,.33, 1.5708,0,0, .08,.42,.03, 'metal'],
+    ],
+    [ // Brecher: Hoernerhelm, Fellkragen, schwere Schulterpanzer mit Dornen, Bart, Kriegshammer
+      ['bm',0, 0,1.24,0, 0,0,0, .62,.4,.4, 'armor'], ['bm',0, 0,1.04,.2, 0,0,0, .5,.06,.03, 'gold'],
+      ['s',0, 0,1.5,0, 0,0,0, .66,.22,.46, 'fur'],
+      ['sm',0, -.4,1.48,0, 0,0,0, .38,.3,.4, 'armor'], ['sm',0, .4,1.48,0, 0,0,0, .38,.3,.4, 'armor'],
+      ['km',0, -.46,1.66,0, 0,0,0, .09,.2,.09, 'metal'], ['km',0, .46,1.66,0, 0,0,0, .09,.2,.09, 'metal'],
+      ['cm',0, 0,1.86,0, 0,0,0, .42,.24,.4, 'armor'], ['sm',0, 0,1.97,0, 0,0,0, .42,.22,.4, 'armor'],
+      ['k',0, -.27,2.02,0, 0,0,1.0, .1,.34,.1, 'bone'], ['k',0, .27,2.02,0, 0,0,-1.0, .1,.34,.1, 'bone'],
+      ['b',0, 0,1.74,.19, 0,0,0, .26,.04,.02, 'eye'], ['b',0, 0,1.54,.17, 0,0,0, .3,.2,.1, 'beard'],
+      ['b',0, -.1,1.4,.19, 0,0,0, .06,.16,.05, 'beard'], ['b',0, .1,1.4,.19, 0,0,0, .06,.16,.05, 'beard'],
+      ['b',0, 0,.84,.2, 0,0,0, .18,.14,.04, 'gold'],
+      ['bm',3, 0,-.66,.01, 0,0,0, .18,.16,.19, 'armor'], ['bm',4, 0,-.66,.01, 0,0,0, .18,.16,.19, 'armor'],
+      ['c',4, 0,-.66,.32, 1.5708,0,0, .09,.95,.09, 'wood'], ['bm',4, 0,-.66,.8, 0,0,0, .42,.26,.28, 'armor'],
+      ['bm',4, 0,-.66,.66, 0,0,0, .3,.3,.04, 'gold'], ['bm',4, 0,-.66,.94, 0,0,0, .3,.3,.04, 'gold'],
+    ],
+  ];
+  const kinds = ['b','bm','c','cm','k','km','s','sm'], cap = {};
+  const lists = byType.map(t => common.concat(t).map(p => {
+    const o = new THREE.Object3D(); o.position.set(p[2],p[3],p[4]); o.rotation.set(p[5],p[6],p[7]); o.scale.set(p[8],p[9],p[10]); o.updateMatrix();
+    return {kind:p[0], par:p[1], m:o.matrix.clone(), col:p[11]};
+  }));
+  for (const k of kinds) cap[k] = MAXU*Math.max(...lists.map(l => l.filter(p => p.kind === k).length), 1);
+  const meshes = {};
+  for (const k of kinds){
+    const m = new THREE.InstancedMesh(geos[k[0]], k.length > 1 ? metal : matte, cap[k]);
+    m.castShadow = true; m.frustumCulled = false;
+    for (let i=0;i<cap[k];i++){ m.setMatrixAt(i, ZERO_M); m.setColorAt(i, new THREE.Color(1,1,1)); }
+    m.count = 0; // erst NACH setColorAt: der Farbpuffer wird in der Groesse von count angelegt
+    scene.add(m); meshes[k] = m;
+  }
+  return {meshes, lists, kinds};
 })();
-const uM = new THREE.Matrix4(), uP = new THREE.Matrix4(), uQ = new THREE.Matrix4(), uO = new THREE.Object3D(), uCol = new THREE.Color();
+const U_COL = {dark:0x2e2620, leather:0x6a452a, leather2:0x3e2818, gold:0xd9a640, metal:0xd4d8de, eye:0x1a1410, wood:0x6b4a2e, fur:0x7a5a3c, bone:0xe8dcc0, beard:0x6a3a1e, light:0xece4d2};
+const uM = new THREE.Matrix4(), uP = new THREE.Matrix4(), uQ = new THREE.Matrix4(), uO = new THREE.Object3D(), uCol = new THREE.Color(), uPar = [0,1,2,3,4].map(() => new THREE.Matrix4()), uCnt = {};
 function laneRoute(team, s){
   // Wegpunkte fuer eine Einheit von Team `team` auf der Bruecke `s` (-1 links, +1 rechts in Weltkoordinaten)
   const dz = team === 'e' ? 1 : -1;  // rote Einheiten laufen nach +z (zur blauen Burg)
@@ -1553,6 +1646,7 @@ function hurtUnit(u, dmg, from, push){
   u.kx += dx/d*push; u.kz += dz/d*push; if (u.y >= 0 && !u.fall) u.vy = Math.max(u.vy, push*.45);
   tA.set(u.x, u.y + 1.2*u.T.s, u.z);
   for (let i=0;i<5;i++) spawnP(tA, tB.set(rand(-2,2), rand(1,3), rand(-2,2)), 0x9a2a1a, .07, .4, 0, 1, .6, .9);
+  if (u.type !== 1) for (let i=0;i<4;i++) spawnP(tA, tB.set(rand(-3,3), rand(1,4), rand(-3,3)), 0xfff0c0, .05, .22, 0, 2, .4, 1, true);
   if (u.hp <= 0){ u.dead = true; u.deadT = 0; u.hp = 0; u.kx *= 1.4; u.kz *= 1.4; }
 }
 function charsOf(team){ return chars.filter(c => c.team !== team && c.alive); }
@@ -1626,28 +1720,34 @@ function updateUnits(dt){
 }
 function renderUnits(dt){
   const P = U_PARTS; let n = 0;
+  for (const k of P.kinds) uCnt[k] = 0;
   for (const u of units){
     if (n >= MAXU) break;
     const T = u.T; u.walkT += u.speed*dt*2.2; if (u.hitT > 0) u.hitT -= dt; if (GUEST() && u.atkT > 0) u.atkT -= dt;
     const k = Math.min(1, u.speed/3), sw = Math.sin(u.walkT)*.8*k;
     const fallA = u.dead ? Math.min(1, u.deadT*3)*Math.PI/2 : 0, sink = u.dead ? Math.max(0, u.deadT - 1.4)*.6 : 0;
     uO.position.set(u.x, u.y - sink, u.z); uO.rotation.set(-fallA, u.yaw, 0, 'YXZ'); uO.scale.setScalar(T.s); uO.updateMatrix(); uM.copy(uO.matrix);
-    const bob = Math.abs(Math.sin(u.walkT))*.06*k; uM.multiply(uQ.makeTranslation(0, bob, 0));
+    const idle = (1 - k)*Math.sin(clock*2.4 + u.id)*.015;
+    const bob = Math.abs(Math.sin(u.walkT))*.06*k + idle; uM.multiply(uQ.makeTranslation(0, bob, 0)).multiply(uQ.makeRotationZ(Math.sin(u.walkT)*.05*k));
     const team = TEAM[u.team], hit = u.hitT > 0;
-    const set = (mesh, i, m, c) => { mesh.setMatrixAt(i, m); mesh.setColorAt(i, hit ? uCol.setHex(0xff6040) : uCol.setHex(c)); };
-    set(P.torso, n, uM, team.main); set(P.belt, n, uM, 0x3a2a1c); set(P.head, n, uM, T.skin); set(P.helm, n, uM, u.type === 1 ? team.dark : T.armor);
-    const limb = (j, x, y, rx, c) => { uP.copy(uM).multiply(uQ.makeTranslation(x, y, 0)).multiply(uO.matrix.makeRotationX(rx)); set(P.limb, n*4 + j, uP, c); return uP; };
-    limb(0, -.14, .8, sw, 0x2a2420); limb(1, .14, .8, -sw, 0x2a2420);
-    limb(2, -.38, 1.44, u.type === 2 ? -sw*.6 : -.5, team.dark);
+    uPar[0].copy(uM);
+    uPar[1].copy(uM).multiply(uQ.makeTranslation(-.14, .8, 0)).multiply(uP.makeRotationX(sw));
+    uPar[2].copy(uM).multiply(uQ.makeTranslation(.14, .8, 0)).multiply(uP.makeRotationX(-sw));
+    const armL = u.type === 0 ? -.55 + sw*.1 : u.type === 1 && u.atkT > 0 ? -2.2 + (1 - u.atkT/.35)*2.6 : -sw*.6 - .1;
     const swing = u.atkT > 0 ? -2.4 + (1 - u.atkT/.35)*3 : sw*.6 - .3;
-    const arm = limb(3, .38, 1.44, swing, team.dark);
-    uP.copy(arm).multiply(uQ.makeTranslation(0, -.62, .06)).multiply(uO.matrix.makeRotationX(Math.PI/2)).multiply(uQ.makeScale(T.wpn[0], T.wpn[1], T.wpn[2])); set(P.wpn, n, uP, T.wpnC);
-    if (u.type === 0){ uP.copy(uM).multiply(uQ.makeTranslation(-.48, 1.12, .12)).multiply(uO.matrix.makeRotationY(Math.PI/2)); set(P.shield, n, uP, team.main); }
-    else P.shield.setMatrixAt(n, ZERO_M);
+    uPar[3].copy(uM).multiply(uQ.makeTranslation(-.38, 1.44, 0)).multiply(uP.makeRotationX(armL));
+    uPar[4].copy(uM).multiply(uQ.makeTranslation(.38, 1.44, 0)).multiply(uP.makeRotationX(swing));
+    for (const p of P.lists[u.type]){
+      const mesh = P.meshes[p.kind], i = uCnt[p.kind]++;
+      uP.multiplyMatrices(uPar[p.par], p.m); mesh.setMatrixAt(i, uP);
+      const c = p.col;
+      let hex = c === 'team' ? team.main : c === 'teamD' ? team.dark : c === 'skin' || c === 'hand' ? T.skin : c === 'skinD' ? T.skinD : c === 'armor' ? T.armor : U_COL[c];
+      if (hit && (c === 'team' || c === 'teamD' || c === 'skin' || c === 'armor')) hex = 0xff6040;
+      mesh.setColorAt(i, uCol.setHex(hex));
+    }
     n++;
   }
-  for (let i=n;i<MAXU;i++){ for (const m of [P.torso, P.belt, P.head, P.helm, P.wpn, P.shield]) m.setMatrixAt(i, ZERO_M); for (let j=0;j<4;j++) P.limb.setMatrixAt(i*4 + j, ZERO_M); }
-  for (const m of Object.values(P)){ m.instanceMatrix.needsUpdate = true; if (m.instanceColor) m.instanceColor.needsUpdate = true; }
+  for (const k of P.kinds){ const m = P.meshes[k]; m.count = uCnt[k]; m.instanceMatrix.needsUpdate = true; if (m.instanceColor) m.instanceColor.needsUpdate = true; }
 }
 // Menue-Hintergrund: Kanonen beider Burgen beschiessen ab und zu die Bruecken
 function menuDemo(dt){
@@ -2761,7 +2861,7 @@ function makeRoom(){
    ================================================================ */
 buildMatch();
 // Testzugang fuer automatisierte Tests (nur mit #test in der Adresse)
-if (/[#&]test\b/.test(location.hash)) window.__cb = { units, get player(){ return player; }, get enemy(){ return enemy; }, spawnUnitWave, setWaveT: v => { waveT = v; }, get castles(){ return castles; } };
+if (/[#&]test\b/.test(location.hash)) window.__cb = { units, get player(){ return player; }, get enemy(){ return enemy; }, spawnUnitWave, setWaveT: v => { waveT = v; }, get castles(){ return castles; }, renderer };
 let last = performance.now(), perfAcc = 0, perfN = 0, lowQ = false;
 function frame(now){
   requestAnimationFrame(frame);
