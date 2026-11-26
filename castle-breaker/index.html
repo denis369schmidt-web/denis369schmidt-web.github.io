@@ -257,6 +257,102 @@ body{font-family:var(--f-ui);color:#fff;user-select:none;-webkit-user-select:non
 }
 @media (max-height:460px){ #btnFire{width:80px;height:80px} #btnMan{width:64px;height:64px} #btnJump{width:52px;height:52px} #hint{bottom:calc(env(safe-area-inset-bottom,0px) + 110px)} }
 @media (prefers-reduced-motion: reduce){ .toast{animation-duration:2.4s} }
+
+/* ===== v13: Game Feel, Feldzug, Belohnungen ===== */
+#combo{position:absolute;right:max(14px, env(safe-area-inset-right,0px));top:calc(env(safe-area-inset-top,0px) + 132px);text-align:right;font-family:var(--f-display);font-weight:800;color:#ffe28a;text-shadow:0 2px 0 #3a2414,0 0 12px rgba(0,0,0,.5);line-height:.9;transform-origin:100% 50%}
+#combo b{display:block;font-size:40px;font-variant-numeric:tabular-nums}
+#combo span{font:700 12px var(--f-ui);letter-spacing:.14em;text-transform:uppercase;color:#fbe9c4}
+#combo.bump{animation:bump .18s ease-out}
+#combo.t2 b{color:#ffb347} #combo.t3 b{color:#ff7a4a;font-size:48px}
+@keyframes bump{0%{transform:scale(1.35)}100%{transform:scale(1)}}
+#pops{position:absolute;inset:0;overflow:hidden}
+.pop{position:absolute;transform:translate(-50%,-50%);font:800 20px var(--f-display);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.6),0 0 8px rgba(0,0,0,.4);white-space:nowrap;animation:popup .95s cubic-bezier(.2,.9,.3,1) forwards}
+.pop.dmg{color:#ffe28a;font-size:24px} .pop.bad{color:#ff8a76} .pop.gold{color:#ffd36a;font-size:17px} .pop.small{font-size:15px;color:#fbe9c4}
+.pop.mark{width:26px;height:26px;animation:mark .35s ease-out forwards}
+.pop.mark::before,.pop.mark::after{content:"";position:absolute;left:50%;top:0;width:4px;height:100%;margin-left:-2px;background:#fff;border-radius:2px;box-shadow:0 0 0 1.5px #3a2414}
+.pop.mark::before{transform:rotate(45deg)} .pop.mark::after{transform:rotate(-45deg)}
+@keyframes popup{0%{opacity:0;transform:translate(-50%,-30%) scale(.5)}15%{opacity:1;transform:translate(-50%,-60%) scale(1.15)}30%{transform:translate(-50%,-70%) scale(1)}100%{opacity:0;transform:translate(-50%,-190%) scale(.95)}}
+@keyframes mark{0%{opacity:1;transform:translate(-50%,-50%) scale(1.8)}100%{opacity:0;transform:translate(-50%,-50%) scale(.9)}}
+#vignette.hurt{animation:hurt .45s ease-out}
+#vignette.low{background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 45%,rgba(150,20,10,.42) 100%);animation:lowhp 1s ease-in-out infinite}
+@keyframes hurt{0%{background:radial-gradient(ellipse at 50% 45%,rgba(200,30,10,.15) 30%,rgba(200,30,10,.6) 100%)}}
+@keyframes lowhp{50%{opacity:.55}}
+#coach{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 212px);width:min(92vw,420px);background:linear-gradient(180deg,#f4e4bf,#e3cb97);color:#3a2414;border:2.5px solid #3a2414;border-radius:4px;box-shadow:0 0 0 3px #8a5a2b,0 0 0 5px #3a2414,0 6px 14px rgba(0,0,0,.4);padding:7px 12px 8px;text-align:center;pointer-events:none}
+#coach .ck{font:700 10.5px var(--f-ui);letter-spacing:.16em;text-transform:uppercase;color:#7a4a1c}
+#coach .ct{font:700 16px var(--f-ui);line-height:1.25;margin-top:2px}
+#coach .cd{display:flex;justify-content:center;gap:5px;margin-top:5px}
+#coach .cd i{width:8px;height:8px;transform:rotate(45deg);border:1.5px solid #3a2414;background:transparent}
+#coach .cd i.on{background:#d99a2b} #coach .cd i.now{background:#3ff2d8}
+#coach.ok{animation:coachok .5s ease}
+@keyframes coachok{30%{background:linear-gradient(180deg,#c8f0b0,#8fd07a)}}
+.coachHi{animation:coachhi 1s ease-in-out infinite!important;z-index:2}
+@keyframes coachhi{50%{box-shadow:0 0 0 4px #3ff2d8,0 0 22px 6px rgba(63,242,216,.75)}}
+#ammo.low{color:#ff9a86}
+/* Feldzug */
+#camp .card,#brief .card{max-width:420px}
+.rankrow{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;margin:8px 0 4px;font-weight:700;color:#3a2414}
+.rankrow .rk{font:800 15px var(--f-display);color:#7a2a14}
+.xpbar{height:10px;background:#3a2414;border-radius:2px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.6)}
+.xpbar b{display:block;height:100%;width:0;background:linear-gradient(180deg,#ffe39a,#d99a2b);transition:width .9s cubic-bezier(.2,.8,.3,1)}
+.rankrow small{font-size:12px;color:#5a4a33;font-variant-numeric:tabular-nums}
+.swatches{display:flex;gap:7px;justify-content:center;flex-wrap:wrap}
+.swatches button{width:30px;height:30px;border-radius:50%;border:2.5px solid #3a2414;cursor:pointer;box-shadow:0 2px 0 #3a2414;position:relative;padding:0}
+.swatches button[aria-pressed="true"]{outline:3px solid #d99a2b;outline-offset:2px}
+.swatches button:disabled{cursor:default;filter:grayscale(1) brightness(.6)}
+.swatches button:disabled::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:8px;margin:-2px 0 0 -5px;background:#f4e4bf;border-radius:1px;box-shadow:0 -5px 0 -2px #f4e4bf}
+.swnote{text-align:center;font-size:12px;color:#5a4a33;margin:5px 0 0;min-height:1.2em}
+.lvgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.lv{position:relative;aspect-ratio:1/1.08;border:2.5px solid #3a2414;border-radius:4px;background:linear-gradient(180deg,#b98a52,#8a5a2b);color:#fbe9c4;cursor:pointer;box-shadow:0 3px 0 #3a2414,inset 0 1px 0 rgba(255,255,255,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2px;font-family:var(--f-display)}
+.lv b{font-size:20px;line-height:1;text-shadow:0 2px 0 #3a2414}
+.lv .st{font-size:11px;letter-spacing:1px;margin-top:3px;color:rgba(58,36,20,.35)}
+.lv .st .on{color:#ffe39a;text-shadow:0 1px 0 #3a2414}
+.lv.next .st .on{color:#fff6cf}
+#hud.fin .controls,#hud.fin #hint,#hud.fin #stick,#hud.fin #lookHint,#hud.fin #aimInfo,#hud.fin #coach{display:none!important}
+.lv.next{background:linear-gradient(180deg,#ffd36a,#d99a2b);color:#3a2414;animation:breathe2 1.8s ease-in-out infinite}
+.lv.next b{text-shadow:none}
+@keyframes breathe2{50%{box-shadow:0 3px 0 #3a2414,0 0 14px rgba(255,200,80,.8)}}
+.lv:disabled{cursor:default;background:linear-gradient(180deg,#6e5a44,#4e3e2c);color:#a89478}
+.lv:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 #3a2414}
+.lvname{text-align:center;font-weight:700;font-size:13px;color:#5a4a33;margin:6px 0 0;min-height:1.2em}
+.mods{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:4px 0}
+.mods span{background:#3a2414;color:#fbe9c4;border-radius:3px;font:700 12px var(--f-ui);padding:3px 8px}
+.goals{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.goals li{display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:6px;background:rgba(90,58,34,.1);border:2px solid rgba(90,58,34,.3);border-radius:4px;padding:5px 8px;font-weight:700;font-size:14px;color:#3a2414}
+.goals li .gs{font-size:18px;color:#a89478;line-height:1}
+.goals li.ok .gs{color:#d99a2b;text-shadow:0 1px 0 #3a2414}
+.goals li em{font-style:normal;font-size:12.5px;color:#6a5a43;font-variant-numeric:tabular-nums}
+.goals li.ok{border-color:#d99a2b;background:rgba(217,154,43,.15)}
+/* Belohnung */
+.stars{display:flex;justify-content:center;gap:10px;margin:6px 0 2px}
+.stars svg{width:54px;height:54px;filter:drop-shadow(0 3px 0 #3a2414);opacity:.28;transform:scale(.8)}
+.stars svg:nth-child(2){width:64px;height:64px;margin-top:-8px}
+.stars svg.on{opacity:1;animation:starin .45s cubic-bezier(.2,1.6,.4,1) both}
+.stars svg.off{opacity:.28;animation:none}
+@keyframes starin{0%{transform:scale(2.2) rotate(-25deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.score{text-align:center;margin:4px 0 0}
+.score b{display:block;font:800 34px var(--f-display);color:#3a2414;font-variant-numeric:tabular-nums;line-height:1}
+.score span{font-size:12px;color:#5a4a33;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.score em{display:block;font-style:normal;font:800 13px var(--f-display);color:#a8301c;letter-spacing:.08em;min-height:1.1em;margin-top:2px}
+.score em.rec{animation:recpulse .9s ease-in-out infinite alternate}
+@keyframes recpulse{to{color:#e0702a;transform:scale(1.06)}}
+.rankup{text-align:center;font:800 15px var(--f-display);color:#2f6a28;margin:6px 0 0;min-height:1.2em}
+.stats{grid-template-columns:repeat(4,1fr)!important}
+.stats b{font-size:19px!important}
+#end .goals{margin-top:8px}
+#end .card{max-width:380px}
+.mfoot button{white-space:nowrap}
+.rankbadge{margin-top:10px;font:700 12.5px var(--f-ui);letter-spacing:.08em;color:#ffe0a0;background:rgba(30,18,8,.6);border:1.5px solid rgba(240,179,90,.5);border-radius:3px;padding:3px 10px;text-shadow:0 1px 0 #000}
+.rankbadge:empty{display:none}
+@media (max-height:600px){ .rankbadge{margin-top:4px;font-size:11px} }
+.mfoot .btns{display:flex;gap:6px}
+#menu.intro .mnav > *:nth-child(5){animation-delay:.75s}
+@media (max-height:520px){ #coach{bottom:calc(env(safe-area-inset-bottom,0px) + 10px);width:min(46vw,380px);padding:4px 10px 5px} #coach .ct{font-size:14px} }
+@media (max-height:600px){ .stars svg{width:40px;height:40px} .stars svg:nth-child(2){width:48px;height:48px} .score b{font-size:26px} #end .goals li{padding:3px 8px;font-size:13px} }
+@media (max-height:600px) and (min-width:700px){ #camp .card{max-width:640px} .lvgrid{grid-template-columns:repeat(10,1fr)} .lv b{font-size:16px} #camp h2{margin:8px 0 5px}
+  #end .card{max-width:660px;display:flex;flex-wrap:wrap;justify-content:center;column-gap:8px} #end .card > *{width:100%} #end .card > .go{width:calc(33% - 6px);margin-top:8px;padding:9px 4px;font-size:15px}
+  #endReward{display:grid;grid-template-columns:150px 1fr;column-gap:14px;align-items:center} #endReward .score{grid-row:1} #endReward .goals{grid-row:1;margin:0} #endReward .rankrow,#endReward .rankup{grid-column:1 / 3} #end .stats{display:none} #end .stars{margin:2px 0 0} }
+@media (max-height:400px){ .plank{min-height:32px;padding:3px 24px} .plank.primary{min-height:40px} }
+@media (prefers-reduced-motion: reduce){ #combo.bump,.pop,.stars svg.on,.lv.next,#vignette.low{animation:none!important} }
 </style>
 
 </head>
@@ -276,6 +372,7 @@ body{font-family:var(--f-ui);color:#fff;user-select:none;-webkit-user-select:non
       <button class="pill" id="muteBtn" type="button">Ton an</button>
       <div class="pill" id="wind">Wind 0</div>
       <div class="pill" id="netPill" hidden></div>
+      <div class="pill" id="ammo" hidden></div>
     </div>
     <div class="side foe">
       <div class="who"><span id="eName">Gegner</span><i></i></div>
@@ -284,7 +381,10 @@ body{font-family:var(--f-ui);color:#fff;user-select:none;-webkit-user-select:non
       <div class="chips" id="eChips"></div>
     </div>
   </div>
+  <div id="pops"></div>
   <div id="toasts"></div>
+  <div id="combo" hidden><b>0</b><span>Steine</span></div>
+  <div id="coach" hidden><div class="ck" id="coachK">Ausbildung 1 / 5</div><div class="ct" id="coachT"></div><div class="cd" id="coachD"></div></div>
   <div id="netWarn" hidden></div>
   <div id="aimInfo" hidden></div>
   <div id="hint">Lauf zu einer Kanone mit grünem Ring</div>
@@ -325,9 +425,11 @@ body{font-family:var(--f-ui);color:#fff;user-select:none;-webkit-user-select:non
       <g class="gem"><path d="M60 4 L69 18 L60 30 L51 18 Z" fill="#3ff2d8" stroke="#0e5a52" stroke-width="2"/><path d="M60 4 L64 18 L60 30 Z" fill="#b8fff4" opacity=".8"/></g>
     </svg>
     <div class="logo"><span class="l1">Castle</span><span class="l2">Breaker</span><span class="ribbon">Kampf der Himmelsburgen</span></div>
+    <div class="rankbadge" id="menuRank"></div>
   </div>
   <nav class="mnav" aria-label="Hauptmenü">
-    <button class="plank primary" id="startBtn" type="button">Schlacht beginnen<small>gegen den Computer</small></button>
+    <button class="plank primary" id="campBtn" type="button">Feldzug<small id="campSub">10 Schlachten mit Sternen</small></button>
+    <button class="plank" id="startBtn" type="button">Freie Schlacht<small>gegen den Computer</small></button>
     <div class="sign" role="group" aria-label="Schwierigkeit">
       <div class="opts" id="diff">
         <button type="button" data-d="leicht" aria-pressed="false">Leicht</button>
@@ -339,7 +441,7 @@ body{font-family:var(--f-ui);color:#fff;user-select:none;-webkit-user-select:non
     <button class="plank" id="onlineBtn" type="button">Mit Freunden<small>online, auf jedem Gerät</small></button>
     <button class="plank" id="helpBtn" type="button">So wird gespielt</button>
   </nav>
-  <div class="mfoot"><button type="button" id="menuMute">Ton an</button><span>Prototyp · Version 12 · Web</span></div>
+  <div class="mfoot"><span class="btns"><button type="button" id="menuMute">Ton an</button><button type="button" id="menuMusic">Musik an</button><button type="button" id="menuVib">Vibration an</button></span><span>Prototyp · Version 13 · Web</span></div>
 </div>
 <div id="fade"></div>
 
@@ -370,6 +472,33 @@ body{font-family:var(--f-ui);color:#fff;user-select:none;-webkit-user-select:non
   </div>
 </div>
 
+
+<div class="overlay" id="camp" hidden>
+  <div class="card">
+    <h1>Feldzug</h1>
+    <div class="rankrow"><span class="rk" id="campRank">Knappe</span><div class="xpbar"><b id="campXp"></b></div><small id="campXpN">0 XP</small></div>
+    <h2>Glutfarbe</h2>
+    <div class="swatches" id="swatches"></div>
+    <p class="swnote" id="swNote"></p>
+    <h2>Schlachten <span id="campStars" style="font-family:var(--f-ui);letter-spacing:0">0 / 30</span></h2>
+    <div class="lvgrid" id="lvGrid"></div>
+    <p class="lvname" id="lvName"></p>
+    <button class="go alt" id="campBack" type="button">Zurück</button>
+  </div>
+</div>
+
+<div class="overlay" id="brief" hidden>
+  <div class="card">
+    <h1 id="brTitle">Schlacht</h1>
+    <p class="sub" id="brDesc"></p>
+    <div class="mods" id="brMods"></div>
+    <h2>Sterne</h2>
+    <ul class="goals" id="brGoals"></ul>
+    <button class="go" id="brGo" type="button">Angriff!</button>
+    <button class="go alt" id="brBack" type="button">Zurück</button>
+  </div>
+</div>
+
 <div class="overlay" id="help" hidden>
   <div class="card">
     <h1>So wird gespielt</h1>
@@ -397,7 +526,7 @@ body{font-family:var(--f-ui);color:#fff;user-select:none;-webkit-user-select:non
       <dt>Q</dt><dd>Schwerthieb gegen Einheiten in deiner Nähe.</dd>
     </dl>
     </div></div>
-    <p class="note">Wind wechselt alle 30 Sekunden. Rote Ringe zeigen gegnerische Einschläge. Schieß Turmfundamente weg, dann stürzt alles darüber ein. Alle 22 Sekunden marschieren Einheiten über die Brücken links und rechts. Prototyp, Version 12.</p>
+    <p class="note">Wind wechselt alle 30 Sekunden. Rote Ringe zeigen gegnerische Einschläge. Schieß Turmfundamente weg, dann stürzt alles darüber ein. Alle 22 Sekunden marschieren Einheiten über die Brücken links und rechts. Prototyp, Version 13.</p>
     <button class="go" id="helpClose" type="button">Verstanden</button>
   </div>
 </div>
@@ -406,12 +535,21 @@ body{font-family:var(--f-ui);color:#fff;user-select:none;-webkit-user-select:non
   <div class="card">
     <h1 id="endTitle">Sieg</h1>
     <p class="sub" id="endReason"></p>
+    <div class="stars" id="endStars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.8l3.1 6.6 7.1.9-5.2 4.9 1.3 7.1L12 17.9l-6.3 3.4 1.3-7.1L1.8 9.3l7.1-.9z" fill="#ffd36a" stroke="#3a2414" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 4.6l2.2 4.7 4.9.6" fill="none" stroke="#fff6cf" stroke-width="1.3" stroke-linecap="round" opacity=".8"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.8l3.1 6.6 7.1.9-5.2 4.9 1.3 7.1L12 17.9l-6.3 3.4 1.3-7.1L1.8 9.3l7.1-.9z" fill="#ffd36a" stroke="#3a2414" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 4.6l2.2 4.7 4.9.6" fill="none" stroke="#fff6cf" stroke-width="1.3" stroke-linecap="round" opacity=".8"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.8l3.1 6.6 7.1.9-5.2 4.9 1.3 7.1L12 17.9l-6.3 3.4 1.3-7.1L1.8 9.3l7.1-.9z" fill="#ffd36a" stroke="#3a2414" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 4.6l2.2 4.7 4.9.6" fill="none" stroke="#fff6cf" stroke-width="1.3" stroke-linecap="round" opacity=".8"/></svg></div>
+    <div id="endReward">
+      <div class="score"><b id="endScore">0</b><span>Punkte</span><em id="endRec"></em></div>
+      <ul class="goals" id="endGoals"></ul>
+      <div class="rankrow"><span class="rk" id="endRank">Knappe</span><div class="xpbar"><b id="endXp"></b></div><small id="endXpN">+0 XP</small></div>
+      <p class="rankup" id="endUp"></p>
+    </div>
     <div class="stats">
       <div><b id="stShots">0</b><span>Schüsse</span></div>
       <div><b id="stHits">0</b><span>Treffer</span></div>
+      <div><b id="stCombo">0</b><span>Kombo</span></div>
       <div><b id="stTime">0:00</b><span>Dauer</span></div>
     </div>
     <p id="endNet" aria-live="polite"></p>
+    <button class="go" id="nextBtn" type="button" hidden>Nächste Schlacht</button>
     <button class="go" id="againBtn" type="button">Nochmal</button>
     <button class="go alt" id="menuBtn" type="button">Zum Hauptmenü</button>
   </div>
@@ -1160,6 +1298,9 @@ class Castle {
     }
   }
   update(dt){
+    if (this.lastAlive === undefined) this.lastAlive = this.alive;
+    if (this.alive < this.lastAlive && this.team === 'e') comboAdd(this.lastAlive - this.alive);
+    this.lastAlive = this.alive;
     if (this.unstable >= 0){ this.unstable -= dt; if (this.unstable < 0) this.integrity(); }
     if (this.matDirty){ this.mesh.instanceMatrix.needsUpdate = true; this.matDirty = false; }
     if (this.colDirty){ this.mesh.instanceColor.needsUpdate = true; this.colDirty = false; }
@@ -1266,13 +1407,13 @@ class Cannon {
     const pr = spawnProjectile(m, d.clone().multiplyScalar(SHOT_V), owner);
     if (owner === player) camWatch = {pr, impact:null, hold:0};
     if (NET.role && owner === player) netShot(m, d);
-    this.reload = RELOAD * (owner.isPlayer ? 1 : D.aiReload); this.reloadMax = this.reload; this.recoil = 1;
+    this.reload = RELOAD * MOD.reload * (owner.isPlayer ? 1 : D.aiReload); this.reloadMax = this.reload; this.recoil = 1;
     spawnP(m, tA.set(0,0,0), 0xfff4d0, .7, .12, 2, 0, 0, 1, true);
     for (let i=0;i<6;i++) spawnP(m, tA.copy(d).multiplyScalar(rand(8,16)).add(tB.set(rand(-1,1),rand(-1,1),rand(-1,1))), i%2?0xffb347:0x9ffff0, rand(.2,.35), rand(.15,.3), 1, 4, 0, .9, true);
     for (let i=0;i<10;i++) spawnP(m, tA.copy(d).multiplyScalar(rand(2,8)).add(tB.set(rand(-1.2,1.2),rand(0,1.5),rand(-1.2,1.2))), 0xdcd6cc, rand(.25,.45), rand(.5,1), 1.6, 2.5, -.03, .55);
     flashAt(m, 1.6, .12);
     sfx.boom(distVol(m)*.75, 1.4);
-    if (owner === player) shake = Math.min(1.2, shake + .25);
+    if (owner === player){ shake = Math.min(1.2, shake + .25); buzz(18); }
     if (owner.isPlayer) stats.shots++;
     return true;
   }
@@ -1284,10 +1425,11 @@ class Cannon {
     this.pivotWorld(tA);
     for (let i=0;i<6;i++) spawnDebris(tA, tB.set(rand(-5,5),rand(4,9),rand(-5,5)), new THREE.Color(i<3?0x7a5534:0x8a5e2c), rand(.3,.5));
     for (let i=0;i<10;i++) spawnP(tA, tB.set(rand(-2,2),rand(1,4),rand(-2,2)), 0x3a3836, rand(.4,.8), rand(1,2), 2, 1, -.02, .85);
-    if (this.castle.team === 'e') toast('Kanone zerstört!', 'good'); else toast('Eine deiner Kanonen ist zerstört', 'bad');
+    if (this.castle.team === 'e'){ toast('Kanone zerstört!', 'good'); if (game.state === 'play' && !NET.role){ stats.score += 250; popAt(tA, '+250', 'gold'); freeze(.12); buzz([30, 30, 60]); sfx.ding(1.3); } }
+    else { toast('Eine deiner Kanonen ist zerstört', 'bad'); buzz(80); }
   }
   update(dt){
-    if (this.reload > 0) this.reload = Math.max(0, this.reload - dt);
+    if (this.reload > 0){ this.reload = Math.max(0, this.reload - dt); if (this.reload === 0 && this.user === player && player && game.state === 'play') sfx.ready(); }
     if (!this.destroyed && !this.castle.get(...this.support)) this.destroy();
     if (this.destroyed){
       const fl = floorAt(this.g.position.x, this.g.position.y + .2, this.g.position.z);
@@ -1647,12 +1789,13 @@ function hurtUnit(u, dmg, from, push){
   tA.set(u.x, u.y + 1.2*u.T.s, u.z);
   for (let i=0;i<5;i++) spawnP(tA, tB.set(rand(-2,2), rand(1,3), rand(-2,2)), 0x9a2a1a, .07, .4, 0, 1, .6, .9);
   if (u.type !== 1) for (let i=0;i<4;i++) spawnP(tA, tB.set(rand(-3,3), rand(1,4), rand(-3,3)), 0xfff0c0, .05, .22, 0, 2, .4, 1, true);
-  if (u.hp <= 0){ u.dead = true; u.deadT = 0; u.hp = 0; u.kx *= 1.4; u.kz *= 1.4; }
+  if (u.hp <= 0){ u.dead = true; u.deadT = 0; u.hp = 0; u.kx *= 1.4; u.kz *= 1.4;
+    if (u.team === 'e' && game.state === 'play' && !NET.role){ stats.kills++; stats.score += 40; tA.set(u.x, u.y + 2.2*u.T.s, u.z); popAt(tA, '+40', 'small'); } }
 }
 function charsOf(team){ return chars.filter(c => c.team !== team && c.alive); }
 function updateUnits(dt){
   if ((game.state === 'play' || game.state === 'menu') && !GUEST()){
-    waveT -= dt; if (waveT <= 0){ waveT = game.state === 'menu' ? 14 : 22; spawnUnitWave(); }
+    if (game.state === 'menu' || MOD.units > 0){ waveT -= dt; if (waveT <= 0){ waveT = game.state === 'menu' ? 14 : MOD.units; spawnUnitWave(); } }
   }
   if (game.state === 'menu') menuDemo(dt);
   for (let i = units.length - 1; i >= 0; i--){
@@ -1792,9 +1935,11 @@ function simulateShot(p0, v0, owner, maxT=6, cb){
   return null;
 }
 function spawnProjectile(p, v, owner){
-  const mesh = new THREE.Mesh(shotG, shotM); mesh.position.copy(p); scene.add(mesh);
-  mesh.add(glowSprite(EMBER, 3.2, .9));
-  const pr = {p:p.clone(), v:v.clone(), owner, t:0, mesh, trail:0, warn:null, pierce:1};
+  const col = owner === player ? glowCol() : EMBER;
+  if (owner === player) pShotM.color.setHex(col);
+  const mesh = new THREE.Mesh(shotG, owner === player ? pShotM : shotM); mesh.position.copy(p); scene.add(mesh);
+  mesh.add(glowSprite(col, 3.2, .9));
+  const pr = {p:p.clone(), v:v.clone(), owner, t:0, mesh, trail:0, warn:null, pierce:1, col};
   if (!owner.isPlayer){
     const res = simulateShot(p, v, owner, 6);
     if (res && res.p.z > 0){
@@ -1841,7 +1986,7 @@ function updateProjectiles(dt){
     pr.trail -= dt;
     if (pr.trail <= 0){
       pr.trail = .02;
-      spawnP(pr.p, tA.set(rand(-.3,.3),rand(-.2,.3),rand(-.3,.3)), Math.random()<.6?EMBER:0xffffff, rand(.12,.22), rand(.25,.45), -.4, .5, 0, .9, true);
+      spawnP(pr.p, tA.set(rand(-.3,.3),rand(-.2,.3),rand(-.3,.3)), Math.random()<.6?pr.col:0xffffff, rand(.12,.22), rand(.25,.45), -.4, .5, 0, .9, true);
       spawnP(pr.p, tA.set(rand(-.3,.3),rand(0,.4),rand(-.3,.3)), 0xe9e4da, .22, rand(.8,1.2), 3, .5, -.01, .32);
     }
     if (hit){ explode(pr.p, pr.owner); removeProjectile(i); }
@@ -1882,6 +2027,8 @@ function hurtAround(p, R, maxDmg, owner, label){
     if (!ch.alive || d >= R) continue;
     const dmg = Math.round(maxDmg*(1 - d/R) + (d < 1.2 ? 30 : 0)); if (dmg <= 0) continue;
     ch.damage(dmg, p); scoredOn.add(ch.team);
+    tB.copy(ch.pos); tB.y += 2.3; popAt(tB, '−' + dmg, ch.isPlayer ? 'bad' : 'dmg');
+    if (!ch.isPlayer && owner && owner.isPlayer && !NET.role && game.state === 'play'){ stats.score += dmg*3; freeze(.11); }
     if (ch.isPlayer) toast(ch.alive ? `${label || 'Getroffen!'} −${dmg}` : 'Du bist kampfunfähig', 'bad');
     else if (owner && owner.isPlayer) toast(ch.alive ? `${label || 'Volltreffer!'} −${dmg}` : 'Gegner kampfunfähig!', 'good');
   }
@@ -1915,7 +2062,8 @@ function explode(p, owner){
       const d = tA.copy(c.g.position).setY(c.g.position.y+.7).distanceTo(p);
       if (d < 3){ c.hit(d < 1.5 ? 2 : 1); if (c.castle.team === enemyOf) scored = true; }
     }
-    if (owner.isPlayer && scored) stats.hits++;
+    if (owner.isPlayer && scored){ stats.hits++; if (game.state === 'play'){ freeze(.075); popAt(p, '', 'mark'); sfx.ding(1); buzz(30); } }
+    else if (!owner.isPlayer && scored){ freeze(.045); }
   }
   const gy = floorAt(p.x, p.y+.5, p.z);
   if (gy > -1 && Math.random() < .8) addFire(tA.set(p.x, gy, p.z));
@@ -1923,15 +2071,16 @@ function explode(p, owner){
   flashAt(p, 6, .35);
   boomGlow(p);
   spawnP(p, tA.set(0,0,0), 0xffffff, 1.2, .14, 3.2, 0, 0, 1, true);
-  spawnP(p, tA.set(0,0,0), EMBER, 1.6, .25, 2.6, 0, 0, .9, true);
+  const EC = owner === player ? glowCol() : EMBER;
+  spawnP(p, tA.set(0,0,0), EC, 1.6, .25, 2.6, 0, 0, .9, true);
   for (let i=0;i<14;i++) spawnP(p, tA.set(rand(-5,5),rand(1,7),rand(-5,5)), i%3===0?0xffe08a:i%3===1?0xff8a2c:0xff5a1a, rand(.6,1.15), rand(.35,.7), 1.7, 2.2, -.05, .95, true);
   spawnWave(p, 9, 0xffe6b0, .45, false);
   if (gy > -1) spawnWave(tA.set(p.x, gy+.15, p.z), 11, 0xd8c4a0, .7, true);
   for (let i=0;i<20;i++) spawnP(p, tA.set(rand(-2.5,2.5),rand(2.5,8),rand(-2.5,2.5)), i%3?0x463f39:0x6d655b, rand(.7,1.35), rand(2,3.6), 2.4, 1.1, -.05, .85);
-  for (let i=0;i<18;i++) spawnP(p, tA.set(rand(-14,14),rand(5,16),rand(-14,14)), Math.random()<.5?0xffd27a:EMBER, .09, rand(.5,1.1), 0, .3, 1, 1, true);
-  for (let i=0;i<5;i++) spawnDebris(p, tB.set(rand(-9,9),rand(5,12),rand(-9,9)), new THREE.Color(EMBER), .22);
+  for (let i=0;i<18;i++) spawnP(p, tA.set(rand(-14,14),rand(5,16),rand(-14,14)), Math.random()<.5?0xffd27a:EC, .09, rand(.5,1.1), 0, .3, 1, 1, true);
+  for (let i=0;i<5;i++) spawnDebris(p, tB.set(rand(-9,9),rand(5,12),rand(-9,9)), new THREE.Color(EC), .22);
   if (gy > -1) for (let i=0;i<16;i++){ const a = i/16*Math.PI*2; spawnP(tA.set(p.x, gy+.3, p.z), tB.set(Math.cos(a)*12, .6, Math.sin(a)*12), 0xa8987e, .55, .9, 2.4, 2.5, 0, .6); }
-  sfx.boom(distVol(p), 1);
+  sfx.boom(distVol(p), 1); music.duckIt(.35);
   const cd = camera.position.distanceTo(p);
   shake = Math.min(1.8, shake + Math.max(0, 1.6 - cd/35));
   // Druckwelle: schiebt bereits liegende Truemmer und fallende Mauerstuecke
@@ -1998,7 +2147,7 @@ class AI {
   constructor(ch, castle){ this.ch = ch; this.castle = castle; this.state = 'think'; this.timer = 1.5; this.err = D.err; this.cannon = null; this.stuck = 0; this.last = new THREE.Vector3(); this.aimY = 0; this.aimP = 0; }
   update(dt){
     const ch = this.ch; let mx = 0, mz = 0, jump = false;
-    if (!ch.alive || game.state !== 'play'){ ch.update(0,0,false,dt); return; }
+    if (!ch.alive || game.state !== 'play' || TUT.on){ ch.update(0,0,false,dt); return; }
     const C = this.castle;
     const foe = nearestFoeUnit(ch, 3.2);
     if (foe){
@@ -2089,10 +2238,10 @@ const sfx = { ctx:null, buf:null, master:null, on:true,
     if (!this.ctx || !this.on || vol < .02) return;
     try {
       const t = this.ctx.currentTime, src = this.ctx.createBufferSource(); src.buffer = this.buf;
-      const f = this.ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.setValueAtTime(1100*bright, t); f.frequency.exponentialRampToValueAtTime(70, t+1.2);
+      const f = this.ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.setValueAtTime(1100*bright*rand(.8,1.2), t); f.frequency.exponentialRampToValueAtTime(70, t+1.2); src.playbackRate.value = rand(.85,1.12);
       const g = this.ctx.createGain(); g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.001, t+1.5);
       src.connect(f); f.connect(g); g.connect(this.master); src.start(t);
-      const o = this.ctx.createOscillator(), og = this.ctx.createGain(); o.frequency.setValueAtTime(75, t); o.frequency.exponentialRampToValueAtTime(28, t+.5);
+      const o = this.ctx.createOscillator(), og = this.ctx.createGain(); o.frequency.setValueAtTime(75*rand(.85,1.2), t); o.frequency.exponentialRampToValueAtTime(28, t+.5);
       og.gain.setValueAtTime(vol*.9, t); og.gain.exponentialRampToValueAtTime(.001, t+.6); o.connect(og); og.connect(this.master); o.start(t); o.stop(t+.65);
     } catch(e){}
   },
@@ -2105,6 +2254,26 @@ const sfx = { ctx:null, buf:null, master:null, on:true,
       src.connect(f); f.connect(g); g.connect(this.master); src.start(t, 0, .8);
     } catch(e){}
   },
+  // Kurzer Ton mit Huellkurve (Basis fuer UI-, Treffer- und Belohnungsklaenge)
+  tone(f, dur, type, vol, when, f2){
+    if (!this.ctx || !this.on) return;
+    try {
+      const t = this.ctx.currentTime + (when || 0), o = this.ctx.createOscillator(), g = this.ctx.createGain();
+      o.type = type || 'sine'; o.frequency.setValueAtTime(f, t); if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + dur);
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .008); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+      o.connect(g); g.connect(this.master); o.start(t); o.stop(t + dur + .02);
+    } catch(e){}
+  },
+  ding(k){ this.tone(1320*k, .18, 'sine', .22); this.tone(1980*k, .12, 'sine', .1, .02); this.tone(660*k, .25, 'triangle', .08); },
+  tick(n){ const f = Math.min(1900, 420 + n*9); this.tone(f, .05, 'square', .035); },
+  ready(){ this.tone(1650, .05, 'square', .05); this.tone(2475, .07, 'sine', .08, .05); },
+  ui(v){ this.tone(190, .07, 'triangle', .12*(v || 1), 0, 120); this.tone(900, .03, 'square', .02*(v || 1)); },
+  chime(){ [880, 1108, 1320, 1760].forEach((f, i) => this.tone(f, .3, 'sine', .12, i*.07)); },
+  star(i){ const f = [784, 988, 1175][i] || 1175; this.tone(f, .6, 'sine', .2); this.tone(f*2, .4, 'sine', .07, .01); this.tone(f*1.5, .5, 'triangle', .06, .03); },
+  fanfare(k){ const n = [587, 740, 880, 1175]; for (let i=0;i<Math.min(4, k+1);i++){ this.tone(n[i], .22, 'sawtooth', .05, i*.09); this.tone(n[i], .3, 'triangle', .1, i*.09); } },
+  win(){ [[587,0],[740,.16],[880,.32],[1175,.5],[880,.7],[1175,.86]].forEach(([f, w], i) => { this.tone(f, i === 5 ? .9 : .28, 'sawtooth', .05, w); this.tone(f, i === 5 ? 1.1 : .3, 'triangle', .13, w); this.tone(f/2, .3, 'sine', .1, w); }); },
+  lose(){ [[440,0],[415,.3],[392,.6],[294,.95]].forEach(([f, w], i) => { this.tone(f, i === 3 ? 1.4 : .32, 'triangle', .13, w); this.tone(f/2, .4, 'sine', .08, w); }); },
+  heart(){ this.tone(62, .12, 'sine', .32, 0, 40); this.tone(55, .14, 'sine', .24, .17, 38); },
   crack(vol){
     if (!this.ctx || !this.on || vol < .02) return;
     try {
@@ -2116,6 +2285,79 @@ const sfx = { ctx:null, buf:null, master:null, on:true,
   }
 };
 const distVol = p => clamp(1.15 - camera.position.distanceTo(p)/85, .1, 1);
+
+/* Adaptive Musik: Schmiede-Folk aus vier Ebenen (Bordun, Trommeln+Bass, Rahmentrommel+Schellen, Melodie).
+   Die Spannung (0..1) entscheidet, welche Ebenen laut sind. Geplant wird 150 ms im Voraus auf der AudioContext-Uhr. */
+const music = { g:null, next:0, step:0, int:0, target:.3, duck:1, deg:0, on:true,
+  BPM:96, ROOTS:[0, -4, -2, -5], SCALE:[0, 3, 5, 7, 10, 12, 15],
+  init(){ if (this.g || !sfx.ctx) return; try { this.g = sfx.ctx.createGain(); this.g.gain.value = 0; this.g.connect(sfx.master); this.next = sfx.ctx.currentTime + .1; } catch(e){ this.g = null; } },
+  duckIt(k){ this.duck = Math.min(this.duck, k); },
+  note(f, t, dur, type, vol, cut){
+    const C = sfx.ctx, o = C.createOscillator(), g = C.createGain(); o.type = type; o.frequency.setValueAtTime(f, t);
+    let out = g; if (cut){ const fl = C.createBiquadFilter(); fl.type = 'lowpass'; fl.frequency.value = cut; o.connect(fl); fl.connect(g); } else o.connect(g);
+    g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + Math.min(.02, dur*.3)); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    out.connect(this.g); o.start(t); o.stop(t + dur + .05);
+  },
+  drum(t, f, vol, dur){
+    const C = sfx.ctx, o = C.createOscillator(), g = C.createGain(); o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f*.45, t + dur);
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur); o.connect(g); g.connect(this.g); o.start(t); o.stop(t + dur + .05);
+  },
+  noise(t, f, q, vol, dur){
+    const C = sfx.ctx, src = C.createBufferSource(); src.buffer = sfx.buf; const fl = C.createBiquadFilter(); fl.type = 'bandpass'; fl.frequency.value = f; fl.Q.value = q;
+    const g = C.createGain(); g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur); src.connect(fl); fl.connect(g); g.connect(this.g); src.start(t, rand(0, .8), dur + .05);
+  },
+  lvl(th){ return clamp((this.int - th)/.18, 0, 1); },
+  play(step, t){
+    const s16 = step % 16, bar = Math.floor(step/16), root = this.ROOTS[bar % 4], D2 = 73.42, hz = st => D2*Math.pow(2, st/12);
+    // Ebene 0: Bordun (Grundton + Quinte), weich gefiltert
+    if (s16 === 0){ const v = .05 + .03*this.lvl(.2); this.note(hz(root + 12), t, 2.4, 'sawtooth', v, 420); this.note(hz(root + 19), t, 2.4, 'sawtooth', v*.6, 380); }
+    // Ebene 1: grosse Trommel + gezupfter Bass
+    const l1 = this.lvl(.25);
+    if (l1 > 0){
+      if ([0, 7, 8, 11].includes(s16)) this.drum(t, s16 === 0 ? 110 : 90, .5*l1*(s16 === 0 ? 1 : .7), .35);
+      if ([0, 3, 8, 11, 14].includes(s16)) this.note(hz(root + (s16 === 14 ? 7 : 0)), t, .3, 'triangle', .16*l1, 900);
+    }
+    // Ebene 2: Rahmentrommel auf 2 und 4, Schellen auf den Achteln
+    const l2 = this.lvl(.5);
+    if (l2 > 0){
+      if (s16 === 4 || s16 === 12) this.noise(t, 1800, .9, .18*l2, .16);
+      if (s16 % 2 === 1) this.noise(t, 7000, 2, .045*l2, .05);
+      if (s16 === 15 && bar % 2 === 1) this.drum(t, 140, .3*l2, .2);
+    }
+    // Ebene 3: Melodie als Zufallsspaziergang auf der Moll-Pentatonik
+    const l3 = this.lvl(.72);
+    if (l3 > 0 && [0, 2, 3, 6, 8, 10, 11, 14].includes(s16)){
+      this.deg = clamp(this.deg + [-1, 0, 1, 1, -1, 2, -2][(Math.random()*7)|0], 0, this.SCALE.length - 1);
+      const st = root + 24 + this.SCALE[this.deg], len = s16 === 14 ? .5 : .22;
+      this.note(hz(st), t, len, 'square', .045*l3, 1800); this.note(hz(st + 12), t, len*.8, 'sine', .03*l3);
+    }
+  },
+  tick(dt){
+    if (!sfx.ctx) return; this.init(); if (!this.g) return;
+    const C = sfx.ctx, now = C.currentTime;
+    // Spannung aus der Spiellage
+    let tg = .3;
+    if (game.state === 'play' && player){
+      tg = .42;
+      const pc = castles[0], ec = castles[1];
+      if (projectiles.some(pr => !pr.owner.isPlayer)) tg += .14;
+      tg += .3*(1 - Math.min(pc.health(), ec.health()));
+      if (player.hp < 50) tg += .15;
+      if (combo.n > 10) tg += .15;
+      if (units.some(u => !u.dead && u.team === 'e' && Math.abs(u.z - player.pos.z) < 12)) tg += .12;
+      if (TUT.on) tg = .3;
+      if (game.finale) tg = 0;
+    } else if (game.state === 'over') tg = 0;
+    this.int += (clamp(tg, 0, 1) - this.int)*Math.min(1, dt*(tg > this.int ? .8 : .35));
+    this.duck += (1 - this.duck)*Math.min(1, dt*1.6);
+    const vol = (sfx.on && this.on) ? .5*this.duck : 0;
+    try { this.g.gain.setTargetAtTime(vol, now, .08); } catch(e){}
+    if (this.next < now - .3) this.next = now + .05;
+    const sd = 60/this.BPM/4;
+    while (this.next < now + .15){ try { this.play(this.step, this.next); } catch(e){} this.next += sd; this.step++; }
+  }
+};
+
 
 /* ================================================================
    INPUT
@@ -2174,13 +2416,149 @@ addEventListener('keydown', e => {
 addEventListener('keyup', e => input.keys.delete(e.key.toLowerCase()));
 addEventListener('blur', () => input.keys.clear());
 
+
+/* ================================================================
+   META: Spielstand, Raenge, Glutfarben, Feldzug, Tutorial, Game Feel
+   ================================================================ */
+const SAVE_KEY = 'cb-save-v1';
+const save = (() => { let d = null; try { d = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); } catch(e){} return Object.assign({xp:0, stars:[], best:{}, glow:0, music:true, vib:true}, d && typeof d === 'object' ? d : {}); })();
+if (!Array.isArray(save.stars)) save.stars = [];
+music.on = save.music !== false;
+function persist(){ try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch(e){} }
+const RANKS = [['Knappe',0],['Kanonier',800],['Feuerwerker',2200],['Hauptmann',4500],['Burgherr',8000],['Belagerungsmeister',13000]];
+function rankOf(xp){ let r = 0; for (let i=0;i<RANKS.length;i++) if (xp >= RANKS[i][1]) r = i; return r; }
+function rankProg(xp){ const r = rankOf(xp); if (r >= RANKS.length-1) return 1; return (xp - RANKS[r][1])/(RANKS[r+1][1] - RANKS[r][1]); }
+const GLOWS = [['Türkis',0x3ff2d8],['Gold',0xffc23a],['Violett',0xb06bff],['Rubin',0xff3b5c],['Smaragd',0x4dff7a],['Sonnenfeuer',0xfff2c0]];
+const glowCol = () => GLOWS[Math.min(save.glow, rankOf(save.xp))][1];
+const pShotM = new THREE.MeshBasicMaterial({color:EMBER});
+// Level: ai = Schwierigkeit, reload = Nachlade-Faktor fuer alle, wind = feste Staerke [min,max], windMax/windEvery = Boeen,
+// units = Sekunden zwischen Wellen (0 = keine), ammo = Schussbegrenzung. goals: Zusatzsterne.
+const LEVELS = [
+  {name:'Erste Schüsse', desc:'Deine Ausbildung. Der Gegner wartet, bis du Zielen und Feuern beherrschst.', ai:'leicht', tut:true, wind:[0,0], units:0, goals:[['acc',35],['time',300]]},
+  {name:'Gegenwind', desc:'Ein steifer Wind bläst die ganze Schlacht von einer Seite. Halte dagegen.', ai:'leicht', wind:[2.4,3.4], units:0, goals:[['shots',20],['nolose']]},
+  {name:'Über die Brücken', desc:'Fußtruppen stürmen öfter als sonst. Verteidige deine Mauer mit dem Schwert.', ai:'normal', units:14, goals:[['hp',50],['time',300]]},
+  {name:'Schnellfeuer', desc:'Alle Kanonen laden doppelt so schnell. Wer zuerst trifft, gewinnt.', ai:'normal', reload:.5, goals:[['acc',45],['time',180]]},
+  {name:'Sturmfront', desc:'Der Wind dreht alle 10 Sekunden und wird immer stärker.', ai:'normal', windMax:4.5, windEvery:10, goals:[['acc',40],['nolose']]},
+  {name:'Knappe Munition', desc:'Nur 18 Kristalle im Lager. Ziel auf die Fundamente, dann stürzt mehr ein.', ai:'normal', ammo:18, goals:[['shots',13],['hp',60]]},
+  {name:'Der Scharfschütze', desc:'Der gegnerische Kanonier zielt genau, lädt aber langsamer.', ai:'schwer', aiReload:1.35, goals:[['hp',50],['acc',50]]},
+  {name:'Ansturm', desc:'Alle 10 Sekunden rückt eine Welle an. Kämpfe an zwei Fronten.', ai:'normal', units:10, goals:[['nolose'],['time',300]]},
+  {name:'Orkan', desc:'Böen bis Stärke 5. Der Gegner kennt den Wind besser als du.', ai:'schwer', windMax:5, windEvery:15, goals:[['acc',35],['time',300]]},
+  {name:'Der Burgherr', desc:'Die letzte Burg. Präzise, schnell und mit Verstärkung über die Brücken.', ai:'schwer', aiReload:.75, units:16, goals:[['hp',40],['nolose']]},
+];
+const MOD0 = {reload:1, windMax:3, windEvery:30, windFix:null, units:22, ammo:0};
+let MOD = Object.assign({}, MOD0), RUN = null;
+function goalText(g){
+  return g[0] === 'acc' ? `Trefferquote ab ${g[1]} %` : g[0] === 'time' ? `Sieg in unter ${Math.floor(g[1]/60)}:${String(g[1]%60).padStart(2,'0')} min`
+    : g[0] === 'shots' ? `Höchstens ${g[1]} Schüsse` : g[0] === 'hp' ? `Mindestens ${g[1]} Leben übrig` : 'Keine eigene Kanone verloren';
+}
+function goalVal(g){
+  const acc = stats.shots ? Math.round(stats.hits/stats.shots*100) : 0;
+  if (g[0] === 'acc') return [acc >= g[1], acc + ' %'];
+  if (g[0] === 'time'){ const t = Math.floor(game.t); return [game.t < g[1], `${Math.floor(t/60)}:${String(t%60).padStart(2,'0')}`]; }
+  if (g[0] === 'shots') return [stats.shots <= g[1], String(stats.shots)];
+  if (g[0] === 'hp') return [player.hp >= g[1], String(player.hp)];
+  const lost = castles[0].cannons.filter(c => c.destroyed).length; return [lost === 0, lost ? lost + ' verloren' : 'alle da'];
+}
+function modTags(L){
+  const t = [{leicht:'KI leicht', normal:'KI normal', schwer:'KI schwer'}[L.ai]];
+  if (L.wind) t.push(L.wind[1] ? `Dauerwind ${L.wind[0]} bis ${L.wind[1]}` : 'Windstill');
+  if (L.windEvery) t.push(`Böen bis ${L.windMax}, alle ${L.windEvery} s`);
+  if (L.units === 0) t.push('Keine Fußtruppen'); else if (L.units) t.push(`Wellen alle ${L.units} s`);
+  if (L.reload) t.push('Doppelt schnell laden');
+  if (L.ammo) t.push(`${L.ammo} Schuss`);
+  if (L.aiReload) t.push(L.aiReload > 1 ? 'Gegner lädt langsam' : 'Gegner lädt schnell');
+  return t;
+}
+function applyLevel(i){
+  const L = LEVELS[i]; RUN = {i, L};
+  D = Object.assign({}, DIFF[L.ai]); if (L.aiReload) D.aiReload = L.aiReload;
+  MOD = Object.assign({}, MOD0);
+  if (L.reload) MOD.reload = L.reload;
+  if (L.windEvery){ MOD.windEvery = L.windEvery; MOD.windMax = L.windMax; }
+  if (L.wind){ MOD.windEvery = 0; MOD.windFix = L.wind; }
+  if (L.units === 0) MOD.units = 0; else if (L.units) MOD.units = L.units;
+  if (L.ammo) MOD.ammo = L.ammo;
+  TUT.on = !!L.tut; TUT.step = 0; TUT.aim = 0; TUT.done = 0;
+}
+function newWind(){
+  if (MOD.windFix){ const [a, b] = MOD.windFix; return b ? (Math.random() < .5 ? -1 : 1)*rand(a, b) : 0; }
+  return rand(-MOD.windMax, MOD.windMax);
+}
+// ----- Tutorial: ein Schritt pro Hinweis, der Gegner wartet
+const TUT = {on:false, step:0, aim:0, done:0, lastY:0, lastP:0, lastC:null};
+const TUT_STEPS = [
+  {t: () => isTouch ? 'Tipp oben auf „III“ oder lauf in einen grünen Ring' : 'Drück 3 oder lauf in einen grünen Ring', ok: () => !!player.manning, hi: () => castles[0].cannons[2].chip},
+  {t: () => isTouch ? 'Zieh rechts über den Bildschirm: so zielst du' : 'Zieh mit der Maus oder nimm die Pfeiltasten: so zielst du', ok: () => TUT.aim > .14},
+  {t: () => isTouch ? 'Tipp auf Feuer' : 'Drück F oder die Leertaste: Feuer', ok: () => stats.shots > 0, hi: () => ui.btnFire},
+  {t: () => 'Triff die rote Burg. Die Linie zeigt die Flugbahn', ok: () => stats.blocks > 0},
+  {t: () => 'Schieß tief in die Mauer: alles darüber stürzt ein', ok: () => stats.bestCombo >= 25 || stats.blocks >= 140},
+];
+function updateTut(dt){
+  if (!TUT.on || game.state !== 'play') return;
+  const c = player.manning;
+  if (c){ if (TUT.lastC !== c){ TUT.lastC = c; TUT.lastY = c.tYaw; TUT.lastP = c.tPitch; } TUT.aim += Math.abs(c.tYaw - TUT.lastY) + Math.abs(c.tPitch - TUT.lastP); TUT.lastY = c.tYaw; TUT.lastP = c.tPitch; } else { TUT.aim = 0; TUT.lastC = null; }
+  const S = TUT_STEPS[TUT.step];
+  if (S.ok()){
+    sfx.chime(); buzz(20);
+    TUT.step++; const box = $('#coach'); box.classList.remove('ok'); void box.offsetWidth; box.classList.add('ok');
+    if (TUT.step >= TUT_STEPS.length){ TUT.on = false; $('#coach').hidden = true; coachHi(null); toast('Ausbildung bestanden! Jetzt schießt er zurück', 'good'); return; }
+  }
+  renderCoach();
+}
+let coachEl = null;
+function coachHi(el){ if (coachEl === el) return; if (coachEl) coachEl.classList.remove('coachHi'); coachEl = el; if (el) el.classList.add('coachHi'); }
+function renderCoach(){
+  const box = $('#coach'); if (!TUT.on){ box.hidden = true; coachHi(null); return; }
+  box.hidden = false; const S = TUT_STEPS[TUT.step];
+  setTxt($('#coachK'), `Ausbildung ${TUT.step + 1} / ${TUT_STEPS.length}`); setTxt($('#coachT'), S.t());
+  const d = $('#coachD'); if (d.children.length !== TUT_STEPS.length){ d.innerHTML = ''; TUT_STEPS.forEach(() => d.appendChild(document.createElement('i'))); }
+  [...d.children].forEach((x, i) => x.className = i < TUT.step ? 'on' : i === TUT.step ? 'now' : '');
+  coachHi(S.hi ? S.hi() : null);
+}
+// ----- Game Feel: Trefferstopp, Zeitlupe, Kombo, schwebende Zahlen, Vibration
+let hitStop = 0, slowT = 0, slowK = 1;
+function freeze(t){ if (!NET.role && game.state === 'play') hitStop = Math.max(hitStop, t); }
+function buzz(p){ if (!save.vib || !navigator.vibrate || game.state === 'menu') return; try { navigator.vibrate(p); } catch(e){} }
+const combo = {n:0, t:0, tickT:0, shown:0, pos:new THREE.Vector3()};
+function comboAdd(n){
+  if (n <= 0 || game.state !== 'play' || NET.role) return;
+  stats.blocks += n; stats.score += n*10;
+  combo.n += n; combo.t = 1.5;
+}
+const COMBO_TIERS = [[120,'Totaler Zusammenbruch!',4],[60,'Lawine!',3],[30,'Einsturz!',2],[15,'Kettenreaktion!',1]];
+function updateCombo(dt){
+  const el = $('#combo');
+  if (combo.n <= 0){ if (!el.hidden) el.hidden = true; return; }
+  combo.t -= dt; combo.tickT -= dt;
+  if (combo.n !== combo.shown){
+    if (combo.n >= 6){ el.hidden = false; el.firstChild.textContent = combo.n; el.className = combo.n >= 60 ? 't3' : combo.n >= 30 ? 't2' : ''; void el.offsetWidth; el.classList.add('bump'); }
+    if (combo.tickT <= 0 && combo.n >= 6){ combo.tickT = .05; sfx.tick(combo.n); }
+    combo.shown = combo.n;
+  }
+  if (combo.t <= 0){
+    const n = combo.n; combo.n = 0; combo.shown = 0; el.hidden = true;
+    stats.bestCombo = Math.max(stats.bestCombo, n);
+    const tier = COMBO_TIERS.find(T => n >= T[0]);
+    if (tier){ const bonus = n*5*tier[2]; stats.score += bonus; toast(`${tier[1]} ${n} Steine · +${bonus}`, 'good'); sfx.fanfare(tier[2]); buzz(tier[2] > 2 ? [40, 40, 90] : 40); }
+  }
+}
+const _pv = new THREE.Vector3();
+function popAt(p, text, cls){
+  if (game.state !== 'play') return;
+  _pv.copy(p).project(camera); if (_pv.z > 1 || Math.abs(_pv.x) > 1.1 || Math.abs(_pv.y) > 1.1) return;
+  const box = $('#pops'); while (box.children.length > 14) box.firstChild.remove();
+  const el = document.createElement('div'); el.className = 'pop ' + (cls || ''); if (text) el.textContent = text;
+  el.style.left = ((_pv.x + 1)/2*innerWidth).toFixed(0) + 'px'; el.style.top = ((1 - _pv.y)/2*innerHeight).toFixed(0) + 'px';
+  box.appendChild(el); setTimeout(() => el.remove(), 1000);
+}
+
 /* ================================================================
    GAME FLOW
    ================================================================ */
 const game = { state:'menu', t:0, endT:0, result:null };
 const NET = { hits:[], hitSeq:0, lastHit:0, room:null, user:null, status:'off', role:null, phase:'idle', code:'', opp:null, oppName:'Gegner', m:0, seq:0, shots:[], lastSeq:0, k:0, sendT:0, oppSeen:0, rtt:0, oppT:0, oppTRecv:0, booms:[], res:null, wantAgain:false, names:new Map(), msg:'' };
 function GUEST(){ return NET.role === 'guest'; }
-const stats = { shots:0, hits:0 };
+const stats = { shots:0, hits:0, blocks:0, score:0, bestCombo:0, kills:0 };
 let player, enemy, ai, cannons = [], chars = [], wind = 0, windT = 0, clock = 0, shake = 0, fovKick = 0, autoTarget = null;
 const lookAt = new THREE.Vector3(0,4,0);
 let menuT = 0, menuShot = -1, camFlyT = 0, demoT = 3;
@@ -2203,7 +2581,9 @@ function buildMatch(){
   chars = [player, enemy];
   ai = new AI(enemy, ec);
   units.length = 0; waveT = 15; waveN = 0; renderUnits(0);
-  stats.shots = stats.hits = 0; game.t = 0; wind = rand(-2.5,2.5); windT = 30; camYaw = 0; camPitch = .32; autoTarget = null;
+  stats.shots = stats.hits = stats.blocks = stats.score = stats.bestCombo = stats.kills = 0; game.t = 0; wind = rand(-2.5,2.5); windT = 30; camYaw = 0; camPitch = .32; autoTarget = null;
+  MOD = Object.assign({}, MOD0); RUN = null; TUT.on = false; combo.n = combo.shown = 0; hitStop = slowT = 0; game.finale = null; lastHp = 100; heartT = 0;
+  $('#coach').hidden = true; coachHi(null); $('#combo').hidden = true; $('#ammo').hidden = true; $('#pops').innerHTML = ''; $('#vignette').className = ''; $('#hud').classList.remove('fin');
   buildChips(); camWatch = null; skipCannon = null; lookIdle = 9;
 }
 function buildChips(){
@@ -2246,6 +2626,7 @@ function playerFire(){
   if (game.state !== 'play' || !player.alive) return;
   if (!player.manning){ playerStrike(); return; }
   const c = player.manning;
+  if (MOD.ammo && stats.shots >= MOD.ammo){ toast('Keine Kristalle mehr', 'bad'); sfx.ui(.6); return; }
   if (c.reload > 0){ toast(`Lädt noch ${c.reload.toFixed(1)} s`, 'bad'); return; }
   c.fire(player);
 }
@@ -2330,6 +2711,10 @@ function updateCamera(dt){
     camera.position.copy(desired); lookAt.copy(look); camera.lookAt(lookAt);
     if (Math.abs(camera.fov - fv) > .05){ camera.fov = fv; camera.updateProjectionMatrix(); }
     return;
+  } else if (game.finale){
+    const F = game.finale; F.t += dt;
+    const cz = F.win ? -30 : 30, a = (F.win ? 0 : Math.PI) + F.t*.32 - .5, R = 30 - Math.min(8, F.t*3);
+    desired.set(Math.sin(a)*R, 15 - Math.min(5, F.t*2), cz + Math.cos(a)*R); look.set(0, 4, cz); speed = 2.6; fovT = 52;
   } else if (player.manning){
     const c = player.manning, P = c.pivotWorld(tC);
     const hx = Math.sin(c.yaw), hz = Math.cos(c.yaw);
@@ -2379,6 +2764,7 @@ const ui = {};
 ['pChips','eChips'].forEach(id => document.getElementById(id));
 ['pCastle','pCastleN','pHp','pHpN','eCastle','eCastleN','eHp','eHpN','hint','aimInfo','btnFire','btnMan','btnJump','wind'].forEach(id => ui[id] = document.getElementById(id));
 const setTxt = (el, t) => { if (el._t !== t){ el._t = t; el.textContent = t; } };
+let lastHp = 100, heartT = 0;
 const setW = (el, f) => { const w = (f*100).toFixed(0)+'%'; if (el._w !== w){ el._w = w; el.style.width = w; } };
 function updateHUD(){
   const pc = castles[0], ec = castles[1];
@@ -2392,6 +2778,15 @@ function updateHUD(){
     setTxt(pill, NET.rtt ? `Online · ${r} ms` : 'Online');
     const cls = 'pill ' + (!NET.rtt ? '' : r < 120 ? 'good' : r < 250 ? 'mid' : 'bad'); if (pill.className !== cls) pill.className = cls;
   }
+  if (MOD.ammo){
+    const left = Math.max(0, MOD.ammo - stats.shots), el = $('#ammo'); el.hidden = false;
+    setTxt(el, `Kristalle ${left} / ${MOD.ammo}`); el.classList.toggle('low', left <= 3);
+  }
+  const vg = $('#vignette');
+  if (player.hp < lastHp){ vg.classList.remove('hurt'); void vg.offsetWidth; vg.classList.add('hurt'); buzz(player.alive ? 50 : [80, 40, 160]); }
+  lastHp = player.hp;
+  const low = player.alive && player.hp < 35; vg.classList.toggle('low', low);
+  if (low){ heartT -= 1/60; if (heartT <= 0){ heartT = .95; sfx.heart(); } }
   const wv = Math.round(wind*10)/10;
   setTxt(ui.wind, wv === 0 ? 'Windstill' : `Wind ${wv > 0 ? '→' : '←'} ${Math.abs(wv).toFixed(1)}`);
   for (const c of cannons){
@@ -2420,7 +2815,7 @@ function updateHUD(){
   else if (near) hint = near.reload > 0 ? `Kanone ${near.label} lädt noch ${near.reload.toFixed(1)} s` : `Kanone ${near.label}: kurz in den Ring stellen`;
   else if (player.pos.y < WALK_Y - 1.5) hint = 'Über eine Treppe hinten zurück auf die Burg';
   else hint = isTouch ? 'Lauf zu einem grünen Ring oder tipp oben auf I bis V' : 'Lauf zu einem grünen Ring (oder 1 bis 5)';
-  ui.hint.hidden = !!m;
+  ui.hint.hidden = !!m || TUT.on;
   setTxt(ui.hint, hint);
 }
 function toast(text, kind){
@@ -2428,7 +2823,7 @@ function toast(text, kind){
   const box = $('#toasts'); box.appendChild(el); while (box.children.length > 3) box.firstChild.remove();
   setTimeout(() => el.remove(), 1950);
 }
-const WHY = { castle:['Die gegnerische Burg ist eingestürzt.', 'Deine Burg ist eingestürzt.'], gunner:['Der gegnerische Kanonier ist kampfunfähig.', 'Du bist kampfunfähig.'], guns:['Alle gegnerischen Kanonen sind zerstört.', 'Alle deine Kanonen sind zerstört.'] };
+const WHY = { ammo:['', 'Deine Kristalle sind verbraucht.'], castle:['Die gegnerische Burg ist eingestürzt.', 'Deine Burg ist eingestürzt.'], gunner:['Der gegnerische Kanonier ist kampfunfähig.', 'Du bist kampfunfähig.'], guns:['Alle gegnerischen Kanonen sind zerstört.', 'Alle deine Kanonen sind zerstört.'] };
 const reasonText = (win, why) => (WHY[why] || WHY.castle)[win ? 0 : 1];
 function checkEnd(){
   if (game.state !== 'play' || game.result || GUEST()) return;
@@ -2439,34 +2834,139 @@ function checkEnd(){
   else if (pc.health() <= 0) r = [false, 'castle'];
   else if (!player.alive) r = [false, 'gunner'];
   else if (pc.cannons.every(c => c.destroyed)) r = [false, 'guns'];
+  else if (MOD.ammo && stats.shots >= MOD.ammo && !projectiles.some(p => p.owner === player) && !chunkList.length && ec.unstable < 0 && combo.n === 0){
+    game.ammoT = (game.ammoT || 0) + 1/60; if (game.ammoT > 2.5) r = [false, 'ammo'];
+  }
+  if (r && !NET.role){
+    slowT = 1.7; slowK = .28; game.finale = {win:r[0], t:0}; camWatch = null; $('#hud').classList.add('fin');
+    if (player.manning) player.unman();
+    if (r[0]){ sfx.win(); buzz([60, 40, 60, 40, 160]); } else { sfx.lose(); buzz(300); }
+    if (combo.n > 0) combo.t = 0;
+  }
   if (r){ game.result = [r[0], reasonText(r[0], r[1])]; game.endT = 2.2; if (NET.role) NET.res = {lose: r[0] ? 'g' : 'h', why: r[1]}; }
 }
 function showEnd(){
-  const [win, reason] = game.result; game.state = 'over';
+  const [win, reason] = game.result; game.state = 'over'; game.finale = null; slowT = 0; coachHi(null);
   $('#endTitle').textContent = game.result[2] || (win ? 'Sieg!' : 'Niederlage');
   const ab = $('#againBtn'); ab.disabled = false;
   ab.textContent = NET.role ? 'Revanche' : 'Nochmal'; ab.hidden = NET.phase === 'ended';
-  $('#menuBtn').textContent = NET.role ? 'Online-Spiel verlassen' : 'Zum Hauptmenü';
+  $('#menuBtn').textContent = NET.role ? 'Online-Spiel verlassen' : RUN ? 'Zum Feldzug' : 'Zum Hauptmenü';
   $('#endNet').textContent = '';
   $('#endReason').textContent = reason;
-  $('#stShots').textContent = stats.shots; $('#stHits').textContent = stats.hits;
+  $('#stShots').textContent = stats.shots; $('#stHits').textContent = stats.hits; $('#stCombo').textContent = stats.bestCombo;
   const s = Math.floor(game.t); $('#stTime').textContent = `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
   $('#hud').hidden = true; $('#end').hidden = false;
+  const reward = !NET.role; $('#endReward').hidden = !reward; $('#endStars').hidden = !(reward && RUN);
+  const nb = $('#nextBtn'); nb.hidden = true; ab.classList.remove('alt');
+  if (!reward) return;
+  // Punkte: Steine, Kombos, Treffer am Kanonier, Kanonen, Einheiten (laufend) + Siegbonus mit Zeit und Genauigkeit
+  const acc = stats.shots ? stats.hits/stats.shots : 0;
+  if (win) stats.score += 1500 + Math.max(0, Math.round(900 - game.t*3)) + Math.round(acc*800);
+  const score = stats.score, key = RUN ? 'L' + RUN.i : 'free-' + diffKey, rec = score > (save.best[key] || 0) && score > 0;
+  if (rec) save.best[key] = score;
+  // Sterne (nur im Feldzug, nur bei Sieg)
+  const svgs = [...$('#endStars').children]; svgs.forEach(x => x.setAttribute('class', ''));
+  const gl = $('#endGoals'); gl.innerHTML = '';
+  let stars = 0;
+  if (RUN){
+    const res = [[win, 'Schlacht gewonnen', win ? 'Sieg' : 'verloren']].concat(RUN.L.goals.map(g => { const [ok, v] = goalVal(g); return [win && ok, goalText(g), v]; }));
+    res.forEach(([ok, txt, v]) => { if (ok) stars++; const li = document.createElement('li'); if (ok) li.className = 'ok'; li.innerHTML = `<span class="gs">★</span><span></span><em></em>`; li.children[1].textContent = txt; li.children[2].textContent = v; gl.appendChild(li); });
+    // Reihenfolge: die erreichten Sterne nacheinander aufleuchten lassen
+    let k = 0; res.forEach((r, i) => { if (!r[0]) return; const j = k++; setTimeout(() => { svgs[j].setAttribute('class', 'on'); sfx.star(j); buzz(25); }, 500 + j*420); });
+    for (let j = stars; j < 3; j++) svgs[j].setAttribute('class', 'off');
+    const prev = save.stars[RUN.i] || 0; if (stars > prev) save.stars[RUN.i] = stars;
+    if (win && RUN.i + 1 < LEVELS.length){ nb.hidden = false; }
+  }
+  ab.classList.toggle('alt', !nb.hidden);
+  // XP und Rang
+  const before = save.xp, gained = Math.max(win ? 60 : 25, Math.round(score/10)), r0 = rankOf(before);
+  save.xp += gained; const r1 = rankOf(save.xp); persist();
+  $('#endRank').textContent = RANKS[r0][0]; $('#endXpN').textContent = `+${gained} XP`;
+  const xb = $('#endXp'); xb.style.transition = 'none'; xb.style.width = (rankProg(before)*100).toFixed(0) + '%'; void xb.offsetWidth; xb.style.transition = '';
+  $('#endUp').textContent = '';
+  setTimeout(() => {
+    xb.style.width = (r1 > r0 ? 100 : rankProg(save.xp)*100).toFixed(0) + '%';
+    if (r1 > r0) setTimeout(() => { $('#endRank').textContent = RANKS[r1][0]; xb.style.transition = 'none'; xb.style.width = '0%'; void xb.offsetWidth; xb.style.transition = ''; xb.style.width = (rankProg(save.xp)*100).toFixed(0) + '%';
+      $('#endUp').textContent = `Aufstieg zum ${RANKS[r1][0]}! Neue Glutfarbe: ${GLOWS[Math.min(r1, GLOWS.length-1)][0]}`; sfx.fanfare(3); }, 1000);
+  }, 600 + stars*420);
+  // Punkte hochzaehlen
+  const sc = $('#endScore'), t0 = performance.now(), em = $('#endRec'); em.textContent = ''; em.className = '';
+  (function count(now){ const k = Math.min(1, (now - t0)/1300), e = 1 - Math.pow(1 - k, 3); sc.textContent = Math.round(score*e).toLocaleString('de-DE');
+    if (k < 1) requestAnimationFrame(count); else if (rec){ em.textContent = 'Neuer Rekord!'; em.className = 'rec'; } else em.textContent = save.best[key] ? `Rekord ${save.best[key].toLocaleString('de-DE')}` : ''; })(t0);
+  sfx.ui(.5);
 }
-function startGame(){
+function startGame(li){
   if (NET.role) leaveOnline(); $('#netPill').hidden = true; $('#netWarn').hidden = true;
-  sfx.init(); D = DIFF[diffKey]; buildMatch();
+  sfx.init(); music.init(); D = DIFF[diffKey]; buildMatch();
+  if (typeof li === 'number') applyLevel(li);
+  wind = newWind(); windT = MOD.windEvery || 30; waveT = MOD.units ? Math.min(15, MOD.units) : 1e9; game.ammoT = 0;
   game.state = 'play'; game.result = null;
-  hideMenu(); $('#end').hidden = true; $('#hud').hidden = false;
+  hideMenu(); for (const id of ['#end', '#camp', '#brief']) $(id).hidden = true; $('#hud').hidden = false;
   camFlyT = 1.6;
-  toast('Zerstör die rote Burg!', 'good');
+  if (RUN){ toast(`${RUN.i + 1}. ${RUN.L.name}`, 'good'); if (TUT.on){ TUT.lastC = null; renderCoach(); } }
+  else toast('Zerstör die rote Burg!', 'good');
 }
 const DIFF_HINT = {leicht:'Volle Flugbahn, die KI zielt grob', normal:'Halbe Flugbahn als Zielhilfe', schwer:'Kaum Zielhilfe, die KI trifft genau'};
 $('#diff').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return; diffKey = b.dataset.d; sfx.init(); $('#diffHint').textContent = DIFF_HINT[diffKey];
   for (const x of $('#diff').children) x.setAttribute('aria-pressed', String(x === b));
 });
-$('#startBtn').addEventListener('click', startGame);
+$('#startBtn').addEventListener('click', () => startGame(null));
+// ----- Feldzug-Uebersicht
+function totalStars(){ return save.stars.reduce((a, b) => a + (b || 0), 0); }
+function syncMeta(){
+  const r = rankOf(save.xp); $('#menuRank').textContent = `${RANKS[r][0]} · ${save.xp} XP`;
+  $('#campSub').textContent = `${totalStars()} von ${LEVELS.length*3} Sternen`;
+}
+let campSel = -1;
+function renderCamp(){
+  const r = rankOf(save.xp);
+  $('#campRank').textContent = RANKS[r][0]; $('#campXp').style.width = (rankProg(save.xp)*100).toFixed(0) + '%';
+  $('#campXpN').textContent = r < RANKS.length - 1 ? `${save.xp} / ${RANKS[r+1][1]} XP` : `${save.xp} XP`;
+  const sw = $('#swatches'); sw.innerHTML = '';
+  GLOWS.forEach(([name, col], i) => {
+    const b = document.createElement('button'); b.type = 'button'; b.style.background = '#' + col.toString(16).padStart(6, '0');
+    b.setAttribute('aria-label', name); b.setAttribute('aria-pressed', String(Math.min(save.glow, r) === i)); b.disabled = i > r;
+    b.addEventListener('click', () => { save.glow = i; persist(); sfx.ui(); renderCamp(); $('#swNote').textContent = `${name} gewählt`; });
+    b.addEventListener('pointerenter', () => { $('#swNote').textContent = i > r ? `${name}: ab Rang ${RANKS[i][0]}` : name; });
+    sw.appendChild(b);
+  });
+  $('#swNote').textContent = `${GLOWS[Math.min(save.glow, r)][0]} · neue Farben mit jedem Rang`;
+  $('#campStars').textContent = `${totalStars()} / ${LEVELS.length*3}`;
+  const g = $('#lvGrid'); g.innerHTML = '';
+  const firstOpen = LEVELS.findIndex((L, i) => !save.stars[i]);
+  LEVELS.forEach((L, i) => {
+    const open = i === 0 || (save.stars[i-1] || 0) > 0, st = save.stars[i] || 0;
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'lv' + (open && i === firstOpen ? ' next' : ''); b.disabled = !open;
+    b.innerHTML = `<b>${i+1}</b><span class="st">${[0,1,2].map(k => `<span class="${k < st ? 'on' : ''}">★</span>`).join('')}</span>`;
+    b.setAttribute('aria-label', `${i+1}. ${L.name}${open ? '' : ' (gesperrt)'}`);
+    b.addEventListener('pointerenter', () => { $('#lvName').textContent = open ? `${i+1}. ${L.name}` : 'Gewinn die Schlacht davor'; });
+    b.addEventListener('click', () => { sfx.ui(); openBrief(i); });
+    g.appendChild(b);
+  });
+  $('#lvName').textContent = firstOpen >= 0 ? `Weiter: ${firstOpen+1}. ${LEVELS[firstOpen].name}` : 'Alle Schlachten gewonnen!';
+}
+function openBrief(i){
+  const L = LEVELS[i], st = save.stars[i] || 0; campSel = i;
+  $('#brTitle').textContent = `${i+1}. ${L.name}`; $('#brDesc').textContent = L.desc;
+  const m = $('#brMods'); m.innerHTML = ''; modTags(L).forEach(t => { const x = document.createElement('span'); x.textContent = t; m.appendChild(x); });
+  const gl = $('#brGoals'); gl.innerHTML = '';
+  ['Gewinne die Schlacht'].concat(L.goals.map(goalText)).forEach((t, k) => { const li = document.createElement('li'); if (k < st) li.className = 'ok'; li.innerHTML = '<span class="gs">★</span><span></span><em></em>'; li.children[1].textContent = t; gl.appendChild(li); });
+  const best = save.best['L' + i]; gl.lastChild.children[2].textContent = '';
+  if (best){ const li = document.createElement('li'); li.innerHTML = '<span class="gs" style="color:#7a4a1c">◆</span><span>Dein Rekord</span><em></em>'; li.children[2].textContent = best.toLocaleString('de-DE') + ' Punkte'; gl.appendChild(li); }
+  $('#brGo').textContent = L.tut ? 'Ausbildung starten' : 'Angriff!';
+  $('#camp').hidden = true; $('#brief').hidden = false;
+}
+function showCamp(){ sfx.init(); music.init(); $('#menu').hidden = true; $('#brief').hidden = true; renderCamp(); $('#camp').hidden = false; }
+$('#campBtn').addEventListener('click', () => { sfx.ui(); showCamp(); });
+$('#campBack').addEventListener('click', () => { sfx.ui(); $('#camp').hidden = true; syncMeta(); $('#menu').hidden = false; });
+$('#brBack').addEventListener('click', () => { sfx.ui(); showCamp(); });
+$('#brGo').addEventListener('click', () => { sfx.ui(); startGame(campSel); });
+$('#nextBtn').addEventListener('click', () => { const i = RUN ? RUN.i + 1 : 0; sfx.ui(); $('#end').hidden = true; openBrief(i); });
+function syncToggles(){ $('#menuMusic').textContent = music.on ? 'Musik an' : 'Musik aus'; $('#menuVib').textContent = save.vib ? 'Vibration an' : 'Vibration aus'; $('#menuVib').hidden = !navigator.vibrate; }
+$('#menuMusic').addEventListener('click', () => { sfx.init(); music.init(); music.on = save.music = !music.on; persist(); syncToggles(); });
+$('#menuVib').addEventListener('click', () => { save.vib = !save.vib; persist(); syncToggles(); buzz(40); });
+syncMeta(); syncToggles();
 // Menue: sanft ausblenden, Glutfunken, Ton-Schalter
 function hideMenu(){ const m = $('#menu'); if (m.hidden) return; m.classList.add('leaving'); setTimeout(() => { m.hidden = true; m.classList.remove('leaving', 'intro'); }, 550); }
 (function embers(){ const box = $('#embers'); for (let i=0;i<22;i++){ const e = document.createElement('i'); if (i % 4 === 0) e.className = 'c';
@@ -2476,10 +2976,10 @@ $('#menuMute').addEventListener('click', () => { sfx.init(); sfx.on = !sfx.on; s
 $('#helpBtn').addEventListener('click', () => { $('#menu').hidden = true; $('#help').hidden = false; });
 $('#helpClose').addEventListener('click', () => { $('#help').hidden = true; $('#menu').hidden = false; });
 $('#againBtn').addEventListener('click', () => {
-  if (!NET.role) return startGame();
+  if (!NET.role) return startGame(RUN ? RUN.i : null);
   NET.wantAgain = true; const ab = $('#againBtn'); ab.disabled = true; ab.textContent = 'Warte auf Gegner …';
 });
-$('#menuBtn').addEventListener('click', () => { if (NET.role) leaveOnline(); $('#end').hidden = true; showMenu(); });
+$('#menuBtn').addEventListener('click', () => { const camp = !!RUN && !NET.role; if (NET.role) leaveOnline(); $('#end').hidden = true; showMenu(); syncMeta(); if (camp) showCamp(); });
 function showMenu(){ buildMatch(); game.state = 'menu'; $('#hud').hidden = true; const m = $('#menu'); m.classList.remove('leaving'); m.classList.add('intro'); m.hidden = false; menuT = 0; menuShot = -1; }
 $('#onlineBtn').addEventListener('click', () => { sfx.init(); $('#menu').hidden = true; $('#online').hidden = false; NET.msg = ''; renderLobby(); });
 $('#onBack').addEventListener('click', () => { if (NET.role || NET.phase === 'busy') leaveOnline(); $('#online').hidden = true; $('#menu').hidden = false; });
@@ -2607,7 +3107,7 @@ function leaveOnline(){
 }
 function joinFail(msg){ NET.role = null; NET.phase = 'idle'; NET.opp = null; NET.msg = msg; pres({cb:1, st:'idle', to:null, code:null}); if (NET.peerjs) NET.room.leave(); renderLobby(); }
 function startOnline(){
-  sfx.init(); D = DIFF.normal;
+  sfx.init(); music.init(); D = DIFF.normal;
   NET.phase = 'play'; NET.shots = []; NET.seq = 0; NET.lastSeq = 0; NET.hits = []; NET.hitSeq = 0; NET.lastHit = 0; NET.res = null; NET.booms = []; NET.wantAgain = false;
   NET.oppSeen = performance.now(); NET.lastOppP = null; NET.ownBoomT = -9; NET.sendT = 0; NET.lostShown = false;
   buildMatch(); for (const C of castles){ C.netMask = ''; C.netCd = 0; }
@@ -2861,16 +3361,21 @@ function makeRoom(){
    ================================================================ */
 buildMatch();
 // Testzugang fuer automatisierte Tests (nur mit #test in der Adresse)
-if (/[#&]test\b/.test(location.hash)) window.__cb = { units, get player(){ return player; }, get enemy(){ return enemy; }, spawnUnitWave, setWaveT: v => { waveT = v; }, get castles(){ return castles; }, renderer };
+if (/[#&]test\b/.test(location.hash)) window.__cb = { units, get player(){ return player; }, get enemy(){ return enemy; }, spawnUnitWave, setWaveT: v => { waveT = v; }, save, LEVELS, startGame, get stats(){ return stats; }, get TUT(){ return TUT; }, get MOD(){ return MOD; }, get game(){ return game; }, music, get camera(){ return camera; }, get cannons(){ return cannons; }, get projectiles(){ return projectiles; }, simulateShot, SHOT_V, playerFire, autoWalk, get castles(){ return castles; }, renderer };
 let last = performance.now(), perfAcc = 0, perfN = 0, lowQ = false;
 function frame(now){
   requestAnimationFrame(frame);
-  const dt = Math.min(.05, (now - last)/1000); last = now; clock += dt;
+  let dt = Math.min(.05, (now - last)/1000); last = now; clock += dt;
+  const rdt = dt;
+  // Trefferstopp (kurzes Einfrieren) und Zeitlupe beim letzten Treffer, nur offline
+  if (hitStop > 0){ hitStop -= rdt; dt *= .05; } else if (slowT > 0){ slowT -= rdt; dt *= slowT < .4 ? slowK + (1 - slowK)*(1 - slowT/.4) : slowK; }
+  music.tick(rdt);
   // adaptive Qualitaet: bei schwachen Handys Aufloesung senken
   if (game.state === 'play' && !lowQ){ perfAcc += dt; perfN++; if (perfN === 90){ if (perfAcc/perfN > 1/36 && renderer.getPixelRatio() > 1){ lowQ = true; renderer.setPixelRatio(1); renderer.setSize(innerWidth, innerHeight); } perfAcc = perfN = 0; } }
   if (game.state === 'play'){
     game.t += dt;
-    if (!GUEST()){ windT -= dt; if (windT <= 0){ windT = 30; wind = rand(-3,3); toast(`Wind dreht: ${wind > 0 ? '→' : '←'} ${Math.abs(wind).toFixed(1)}`); } }
+    if (!GUEST() && (MOD.windEvery || NET.role)){ windT -= dt; if (windT <= 0){ windT = MOD.windEvery || 30; wind = newWind(); toast(`Wind dreht: ${wind > 0 ? '→' : '←'} ${Math.abs(wind).toFixed(1)}`); } }
+    updateTut(dt); updateCombo(dt);
     updatePlayer(dt);
     if (NET.role) enemy.netDrive(dt); else ai.update(dt);
     if (game.result){ game.endT -= dt; if (game.endT <= 0) showEnd(); }
@@ -2886,7 +3391,7 @@ function frame(now){
   updateDebris(dt); updateUnits(dt); updateParts(dt);
   if (flashT > 0){ flashT -= dt; flash.intensity = Math.max(0, flashT/(flash.userData.dur||.3))*(flash.userData.peak||0); if (flashT <= 0) flash.intensity = 0; }
   checkEnd();
-  updatePreview(); updateCamera(dt);
+  updatePreview(); updateCamera(rdt);
   if (game.state === 'play') updateHUD();
   renderer.render(scene, camera);
 }
